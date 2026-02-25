@@ -1,0 +1,49 @@
+steps:
+  # Étape 1 : Build de l'image Docker (Stage: Builder + Runner)
+  - name: 'gcr.io/cloud-builders/docker'
+    args: 
+      - 'build'
+      - '-t'
+      - 'europe-west1-docker.pkg.dev/$PROJECT_ID/agasa-repo/agasa-core:$COMMIT_SHA'
+      - '-t'
+      - 'europe-west1-docker.pkg.dev/$PROJECT_ID/agasa-repo/agasa-core:latest'
+      - '.'
+    id: 'BuildImage'
+
+  # Étape 2 : Push de l'image vers l'Artifact Registry Google
+  - name: 'gcr.io/cloud-builders/docker'
+    args: 
+      - 'push'
+      - '--all-tags'
+      - 'europe-west1-docker.pkg.dev/$PROJECT_ID/agasa-repo/agasa-core'
+    id: 'PushToRegistry'
+
+  # Étape 3 : Déploiement vers Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'agasa-core-service'
+      - '--image'
+      - 'europe-west1-docker.pkg.dev/$PROJECT_ID/agasa-repo/agasa-core:$COMMIT_SHA'
+      - '--region'
+      - 'europe-west1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--concurrency'
+      - '80'
+      - '--max-instances'
+      - '10'
+      - '--min-instances'
+      - '1' # Contre le cold start
+      - '--set-env-vars'
+      - 'NEXT_PUBLIC_CONVEX_URL=$_CONVEX_URL,NEXT_PUBLIC_FIREBASE_API_KEY=$_FIREBASE_API_KEY,NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=$_FIREBASE_AUTH_DOMAIN,NEXT_PUBLIC_FIREBASE_PROJECT_ID=$_FIREBASE_PROJECT_ID'
+    id: 'DeployToCloudRun'
+
+images:
+  - 'europe-west1-docker.pkg.dev/$PROJECT_ID/agasa-repo/agasa-core:$COMMIT_SHA'
+
+options:
+  logging: CLOUD_LOGGING_ONLY

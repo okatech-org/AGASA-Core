@@ -1,0 +1,42 @@
+# Dépendances Node.js et Build
+node_modules
+.pnp
+.pnp.js
+
+# Build Output
+.next/
+out/
+build/
+dist/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environnement et Secrets
+.env
+.env.*.local
+.env.local
+.vercel
+
+# Tests et Couverture
+coverage/
+
+# Mac OS
+.DS_Store
+
+# Outils Dev
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Scripts Locaux
+test-push.ts
+scripts/
