@@ -6,6 +6,7 @@ import {
     onAuthStateChanged,
     setPersistence,
     browserLocalPersistence,
+    sendPasswordResetEmail as firebaseSendPasswordResetEmail,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -25,6 +26,7 @@ let auth: any;
 let customSignIn: typeof signInWithEmailAndPassword;
 let customSignOut: typeof signOut;
 let customOnAuthStateChanged: typeof onAuthStateChanged;
+let customSendPasswordResetEmail: (auth: any, email: string) => Promise<void>;
 
 if (isDummyConfig) {
     console.log("⚠️ USING MOCK FIREBASE AUTH FOR DEVELOPMENT ⚠️");
@@ -63,6 +65,15 @@ if (isDummyConfig) {
         });
     };
 
+    customSendPasswordResetEmail = async (_authObj: any, email: string) => {
+        return new Promise<void>((resolve) => {
+            setTimeout(() => {
+                console.log(`📧 [MOCK] Lien de réinitialisation envoyé à ${email}`);
+                resolve();
+            }, 800);
+        });
+    };
+
     customSignOut = async (authObj: any) => {
         return new Promise((resolve) => {
             setTimeout(() => {
@@ -98,6 +109,7 @@ if (isDummyConfig) {
     customSignIn = signInWithEmailAndPassword;
     customSignOut = signOut;
     customOnAuthStateChanged = onAuthStateChanged;
+    customSendPasswordResetEmail = (authObj: any, email: string) => firebaseSendPasswordResetEmail(authObj, email);
 }
 
 export {
@@ -106,4 +118,5 @@ export {
     customSignIn as signInWithEmailAndPassword,
     customSignOut as signOut,
     customOnAuthStateChanged as onAuthStateChanged,
+    customSendPasswordResetEmail as sendPasswordResetEmail,
 };

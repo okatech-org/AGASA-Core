@@ -18,6 +18,7 @@ import type * as alertes_alertes from "../alertes/alertes.js";
 import type * as alertes_cemac from "../alertes/cemac.js";
 import type * as alertes_rappels from "../alertes/rappels.js";
 import type * as alertes_signalements from "../alertes/signalements.js";
+import type * as audit_stats from "../audit/stats.js";
 import type * as auth from "../auth.js";
 import type * as bi_cartographie from "../bi/cartographie.js";
 import type * as bi_crons from "../bi/crons.js";
@@ -72,6 +73,7 @@ declare const fullApi: ApiFromModules<{
   "alertes/cemac": typeof alertes_cemac;
   "alertes/rappels": typeof alertes_rappels;
   "alertes/signalements": typeof alertes_signalements;
+  "audit/stats": typeof audit_stats;
   auth: typeof auth;
   "bi/cartographie": typeof bi_cartographie;
   "bi/crons": typeof bi_crons;

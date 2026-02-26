@@ -1,25 +1,35 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { useAuth } from "@/components/providers/AuthProvider";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-    PenTool, CheckCircle2, Clock, Download, ExternalLink,
+    PenTool, CheckCircle2, Clock, Download, Loader2,
 } from "lucide-react";
 import {
     Table, TableBody, TableCell, TableHead, TableHeader, TableRow
 } from "@/components/ui/table";
 
-const demoSignatures = [
-    { ref: "SIG-2026-001", document: "Décision N°12/DG — Réorganisation LAA", signataire: "DG", date: "25/02/2026 14:00", hash: "sha256:a3f4...b2e1", statut: "valide" },
-    { ref: "SIG-2026-002", document: "Marché 045/2026 — Acquisition réactifs", signataire: "DG", date: "24/02/2026 16:30", hash: "sha256:c7d8...e9f2", statut: "valide" },
-    { ref: "SIG-2026-003", document: "Note de service N°8 — Horaires Ramadan", signataire: "Directeur DERSP", date: "23/02/2026 10:15", hash: "sha256:f1a2...b3c4", statut: "valide" },
-    { ref: "SIG-2026-004", document: "Rapport annuel 2025 — Cour des Comptes", signataire: "DG", date: "22/02/2026 09:00", hash: "sha256:d5e6...f7a8", statut: "valide" },
-    { ref: "SIG-2026-005", document: "Attestation de conformité — OLAM Gabon", signataire: "Directeur DICSP", date: "21/02/2026 15:45", hash: "sha256:b9c0...d1e2", statut: "valide" },
-    { ref: "SIG-2026-006", document: "Budget prévisionnel Q2 2026", signataire: "DG", date: "20/02/2026 11:30", hash: "sha256:e3f4...a5b6", statut: "en_attente" },
-];
-
 export default function AuditSignaturesPage() {
+    const { user } = useAuth();
+    const userId = user?._id;
+    const signatures = useQuery(api.audit.stats.getSignatures, userId ? { userId } : "skip");
+
+    if (signatures === undefined) {
+        return (
+            <div className="flex h-[60vh] items-center justify-center">
+                <Loader2 className="h-8 w-8 animate-spin text-slate-600" />
+            </div>
+        );
+    }
+
+    const total = signatures.length;
+    const validees = signatures.filter((s: any) => s.statut === "valide").length;
+    const enAttente = signatures.filter((s: any) => s.statut === "en_attente").length;
+
     return (
         <div className="space-y-6">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -38,20 +48,20 @@ export default function AuditSignaturesPage() {
                 <Card className="shadow-sm">
                     <CardContent className="p-5">
                         <p className="text-sm text-slate-500">Total signatures</p>
-                        <p className="text-2xl font-bold text-slate-900 mt-1">{demoSignatures.length}</p>
+                        <p className="text-2xl font-bold text-slate-900 mt-1">{total}</p>
                         <p className="text-xs text-slate-400">Exercice en cours</p>
                     </CardContent>
                 </Card>
                 <Card className="shadow-sm border-emerald-100">
                     <CardContent className="p-5">
                         <p className="text-sm text-slate-500 flex items-center gap-1"><CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" /> Validées</p>
-                        <p className="text-2xl font-bold text-emerald-700 mt-1">{demoSignatures.filter(s => s.statut === "valide").length}</p>
+                        <p className="text-2xl font-bold text-emerald-700 mt-1">{validees}</p>
                     </CardContent>
                 </Card>
                 <Card className="shadow-sm border-amber-100">
                     <CardContent className="p-5">
                         <p className="text-sm text-slate-500 flex items-center gap-1"><Clock className="h-3.5 w-3.5 text-amber-500" /> En attente</p>
-                        <p className="text-2xl font-bold text-amber-700 mt-1">{demoSignatures.filter(s => s.statut === "en_attente").length}</p>
+                        <p className="text-2xl font-bold text-amber-700 mt-1">{enAttente}</p>
                     </CardContent>
                 </Card>
             </div>
@@ -70,20 +80,28 @@ export default function AuditSignaturesPage() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {demoSignatures.map((sig, i) => (
-                                <TableRow key={i} className="hover:bg-slate-50/60">
-                                    <TableCell className="font-mono text-xs">{sig.ref}</TableCell>
-                                    <TableCell className="text-sm font-medium max-w-[300px] truncate">{sig.document}</TableCell>
-                                    <TableCell className="text-sm">{sig.signataire}</TableCell>
-                                    <TableCell className="text-xs text-slate-500">{sig.date}</TableCell>
-                                    <TableCell className="font-mono text-[10px] text-slate-400">{sig.hash}</TableCell>
-                                    <TableCell>
-                                        <Badge className={`text-xs border-0 ${sig.statut === "valide" ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"}`}>
-                                            {sig.statut === "valide" ? "✓ Vérifié" : "En attente"}
-                                        </Badge>
+                            {signatures.length === 0 ? (
+                                <TableRow>
+                                    <TableCell colSpan={6} className="text-center text-sm text-muted-foreground py-12">
+                                        Aucune signature enregistrée.
                                     </TableCell>
                                 </TableRow>
-                            ))}
+                            ) : (
+                                signatures.map((sig: any, i: number) => (
+                                    <TableRow key={i} className="hover:bg-slate-50/60">
+                                        <TableCell className="font-mono text-xs">{sig.ref}</TableCell>
+                                        <TableCell className="text-sm font-medium max-w-[300px] truncate">{sig.document}</TableCell>
+                                        <TableCell className="text-sm">{sig.signataire}</TableCell>
+                                        <TableCell className="text-xs text-slate-500">{sig.date}</TableCell>
+                                        <TableCell className="font-mono text-[10px] text-slate-400">{sig.hash}</TableCell>
+                                        <TableCell>
+                                            <Badge className={`text-xs border-0 ${sig.statut === "valide" ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"}`}>
+                                                {sig.statut === "valide" ? "✓ Vérifié" : "En attente"}
+                                            </Badge>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            )}
                         </TableBody>
                     </Table>
                 </CardContent>

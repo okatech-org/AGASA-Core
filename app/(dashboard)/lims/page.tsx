@@ -12,9 +12,10 @@ import { fr } from "date-fns/locale";
 export default function LimsDashboardPage() {
     const { user } = useAuth();
 
-    const data = useQuery(api.lims.echantillons.getDashboardStats as any, {
-        userId: user?._id as any
-    });
+    const data = useQuery(
+        api.lims.echantillons.getDashboardStats as any,
+        user?._id ? { userId: user._id } : "skip"
+    );
 
     const COLORS = ['#1B4F72', '#27AE60', '#E67E22', '#8E44AD', '#E74C3C', '#F1C40F', '#3498DB'];
 

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
     Shield,
     FileText,
@@ -12,13 +13,10 @@ import {
     AlertTriangle,
     BarChart3,
     ChevronRight,
-    ArrowRight,
-    CheckCircle,
-    Monitor,
-    HelpCircle,
+    Building2,
+    Microscope,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { HeroActions, CtaActions } from "@/components/HomeActions";
 
 const modules = [
     {
@@ -26,6 +24,7 @@ const modules = [
         title: "Ressources Humaines",
         description:
             "Gestion des agents, paie, congés, formations et portail self-service.",
+        image: "/images/module_rh.png",
         color: "text-blue-600 bg-blue-50",
     },
     {
@@ -33,6 +32,7 @@ const modules = [
         title: "Finance & Comptabilité",
         description:
             "Budget, redevances, amendes, recouvrement et comptabilité publique.",
+        image: "/images/module_finance.png",
         color: "text-emerald-600 bg-emerald-50",
     },
     {
@@ -40,6 +40,7 @@ const modules = [
         title: "Gestion Documentaire",
         description:
             "Courrier numérisé, signature électronique, workflows et archivage.",
+        image: "/images/module_doc.png",
         color: "text-amber-600 bg-amber-50",
     },
     {
@@ -47,6 +48,7 @@ const modules = [
         title: "Logistique",
         description:
             "Flotte de véhicules, stocks de réactifs, maintenance des équipements.",
+        image: "/images/module_logistique.png",
         color: "text-orange-600 bg-orange-50",
     },
     {
@@ -54,6 +56,7 @@ const modules = [
         title: "Laboratoire (LIMS)",
         description:
             "Échantillons, analyses, rapports ISO 17025 et base de contaminants.",
+        image: "/images/module_labo.png",
         color: "text-purple-600 bg-purple-50",
     },
     {
@@ -61,6 +64,7 @@ const modules = [
         title: "Alertes Sanitaires",
         description:
             "Alertes actives, signalements citoyens, rappels de produits, protocole CEMAC.",
+        image: "/images/hero_bg.png",
         color: "text-red-600 bg-red-50",
     },
     {
@@ -68,8 +72,32 @@ const modules = [
         title: "Tableau de Bord BI",
         description:
             "KPI opérationnels, cartographie des risques et pilotage DG.",
+        image: "/images/module_finance.png",
         color: "text-cyan-600 bg-cyan-50",
     },
+];
+
+const acteurs = [
+    {
+        role: "La Direction Générale",
+        description: "Pilote les indicateurs de performance, surveille les alertes sanitaires globales et prend des décisions stratégiques.",
+        icon: BarChart3,
+    },
+    {
+        role: "L'Inspecteur Terrain",
+        description: "Remonte instantanément les constats de conformité et valide les inspections depuis les marchés et frontières.",
+        icon: Shield,
+    },
+    {
+        role: "Le Technicien Labo",
+        description: "Suit le parcours des échantillons garantissant la traçabilité complète des analyses de sécurité alimentaire.",
+        icon: Microscope,
+    },
+    {
+        role: "Le Support & RH",
+        description: "Gère fluidement la carrière des agents et les finances dans un environnement moderne zéro papier.",
+        icon: Building2,
+    }
 ];
 
 const etapes = [
@@ -77,52 +105,42 @@ const etapes = [
         numero: "1",
         titre: "Connectez-vous",
         description:
-            "Avec vos identifiants AGASA, depuis votre navigateur web.",
+            "Avec vos identifiants internes AGASA, depuis n'importe quel appareil.",
     },
     {
         numero: "2",
         titre: "Travaillez",
         description:
-            "Accédez à votre module métier : RH, Finance, Labo, Logistique...",
+            "Accédez à votre espace métier dédié et collaborez en temps réel avec vos pairs.",
     },
     {
         numero: "3",
         titre: "Suivez",
         description:
-            "Vos demandes, dossiers et indicateurs sont mis à jour en temps réel.",
+            "Suivez l'évolution de vos dossiers avec une traçabilité totale des processus.",
     },
 ];
 
 const faq = [
     {
-        question: "Ai-je besoin de compétences informatiques ?",
+        question: "Ai-je besoin de compétences informatiques avancées ?",
         reponse:
-            "Non. AGASA-Core est conçu pour être simple d'utilisation. Si vous savez utiliser un navigateur web, vous pouvez utiliser la plateforme. Des formations sont prévues pour chaque direction.",
+            "Non. AGASA-Core est conçu pour être très simple d'utilisation. L'interface est intuitive et guidée.",
     },
     {
         question: "Mes données sont-elles sécurisées ?",
         reponse:
-            "Oui. Toutes les communications sont chiffrées (TLS 1.3). L'accès est protégé par authentification forte. Chaque action est tracée dans un journal d'audit non modifiable.",
+            "Oui. Toutes les communications sont chiffrées. L'accès est protégé et chaque action est tracée.",
     },
     {
         question: "Comment accéder depuis ma province ?",
         reponse:
-            "La plateforme est accessible depuis n'importe quelle antenne provinciale via le réseau AGASA ou VPN. Il suffit d'un navigateur web et d'une connexion internet.",
+            "La plateforme est accessible depuis n'importe quelle antenne provinciale. Il suffit d'une connexion internet.",
     },
     {
-        question: "Que se passe-t-il en cas de coupure internet ?",
+        question: "Peut-on l'utiliser sur tablette ?",
         reponse:
-            "La plateforme fonctionne en mode connecté. En cas de coupure, vos données sont préservées et vous retrouverez votre travail à la reconnexion. Des sauvegardes quotidiennes sont effectuées.",
-    },
-    {
-        question: "Qui contacter en cas de problème ?",
-        reponse:
-            "Une hotline dédiée est disponible du lundi au vendredi, de 8h à 18h. Vous pouvez aussi créer un ticket depuis la plateforme ou contacter votre champion numérique local.",
-    },
-    {
-        question: "Puis-je accéder depuis ma tablette ?",
-        reponse:
-            "Oui. AGASA-Core est optimisé pour les écrans de bureaux et tablettes. L'interface s'adapte automatiquement à la taille de votre écran.",
+            "Oui, la plateforme est 100% responsive et optimisée pour une utilisation sur mobile, tablette ou bureau.",
     },
 ];
 
@@ -130,170 +148,208 @@ export default function PublicHomePage() {
     return (
         <div>
             {/* Hero Section */}
-            <section className="relative overflow-hidden bg-gradient-to-br from-agasa-primary via-agasa-primary/95 to-agasa-secondary py-20 lg:py-28">
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.05%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')] opacity-50" />
-                <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <section className="relative overflow-hidden bg-agasa-secondary py-20 lg:py-32">
+                <div className="absolute inset-0 z-0">
+                    <Image
+                        src="/images/hero_bg.png"
+                        alt="Hub Numérique AGASA au Gabon"
+                        fill
+                        className="object-cover object-center opacity-40 mix-blend-overlay"
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-agasa-secondary via-agasa-primary/80 to-agasa-primary/95 mix-blend-multiply" />
+                </div>
+
+                <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="max-w-3xl">
-                        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-sm text-white/90">
+                        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-sm text-white/90 shadow-sm backdrop-blur-md">
                             <Shield className="h-4 w-4" />
                             Agence Gabonaise de Sécurité Alimentaire
                         </div>
-                        <h1 className="text-4xl font-bold tracking-tight text-white lg:text-5xl">
+                        <h1 className="text-4xl font-extrabold tracking-tight text-white lg:text-6xl drop-shadow-md">
                             AGASA-Core
-                            <span className="mt-2 block text-2xl font-medium text-white/80 lg:text-3xl">
+                            <span className="mt-4 block text-2xl font-semibold text-white/90 lg:text-4xl">
                                 Le Hub Numérique de la Sécurité Alimentaire
                             </span>
                         </h1>
-                        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/75">
-                            Plateforme interne unifiée pour la gestion, le contrôle et le
-                            pilotage de l&apos;AGASA. Un seul outil pour tous les agents, du
-                            siège de Libreville aux 9 antennes provinciales.
+                        <p className="mt-8 max-w-2xl text-lg leading-relaxed text-white/85 drop-shadow-sm font-medium">
+                            Une infrastructure digitale souveraine pour la gestion, le contrôle et le
+                            pilotage de l&apos;AGASA. Un outil technologique premium pour tous les acteurs,
+                            garantissant efficacité et traçabilité pour protéger la santé publique.
                         </p>
-                        <div className="mt-8 flex flex-wrap gap-4">
-                            <Button
-                                asChild
-                                size="lg"
-                                className="bg-white text-agasa-primary hover:bg-white/90"
-                            >
-                                <Link href="/connexion">
-                                    Accéder à la plateforme
-                                    <ArrowRight className="ml-2 h-4 w-4" />
-                                </Link>
-                            </Button>
-                            <Button
-                                asChild
-                                size="lg"
-                                variant="outline"
-                                className="border-white/30 bg-transparent text-white hover:bg-white/10"
-                            >
-                                <Link href="/demo">
-                                    Découvrir la démo
-                                    <ChevronRight className="ml-2 h-4 w-4" />
-                                </Link>
-                            </Button>
+                        <div className="mt-10">
+                            <HeroActions />
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Section Pourquoi */}
-            <section className="py-16 lg:py-24">
+            {/* Section Vision & Benefices */}
+            <section className="py-20 lg:py-28 bg-slate-50">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="text-center">
-                        <h2 className="text-3xl font-bold text-foreground">
+                    <div className="text-center max-w-3xl mx-auto">
+                        <span className="text-agasa-primary font-semibold tracking-wider uppercase text-sm">La Vision</span>
+                        <h2 className="mt-3 text-3xl font-bold text-slate-900 sm:text-4xl">
                             Pourquoi numériser la gestion de l&apos;AGASA ?
                         </h2>
-                        <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
-                            La transformation numérique au service de la sécurité alimentaire
-                            gabonaise
+                        <p className="mt-4 text-lg text-slate-600">
+                            Notre ambition est de moderniser l&apos;administration publique gabonaise pour offrir un service de qualité, rapide et transparent.
                         </p>
                     </div>
-                    <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                    <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
                         {[
                             {
                                 icon: FileText,
-                                title: "Fini le papier",
-                                desc: "Tous vos dossiers, courriers et documents accessibles en un clic depuis votre bureau ou votre tablette.",
+                                title: "100% Zéro Papier",
+                                desc: "Vos dossiers et workflows entièrement numérisés. Finies les pertes d&apos;archives.",
                             },
                             {
                                 icon: Clock,
-                                title: "Gain de temps",
-                                desc: "Des processus qui prenaient 45-90 jours réduits à 15-21 jours grâce à l'automatisation.",
+                                title: "Gain d'Efficacité",
+                                desc: "L'automatisation réduit les délais de traitement des processus de plusieurs semaines à quelques jours.",
                             },
                             {
                                 icon: Lock,
-                                title: "Traçabilité totale",
-                                desc: "Chaque action est enregistrée. Chaque franc CFA est traçable du paiement au Trésor Public.",
+                                title: "Traçabilité Absolue",
+                                desc: "Chaque action, chaque paiement et chaque décision est sécurisé et auditable instantanément.",
                             },
                             {
                                 icon: Globe,
-                                title: "9 Provinces connectées",
-                                desc: "Du siège de Libreville à l'antenne de Bitam, la même plateforme, les mêmes données, en temps réel.",
+                                title: "Réseau National",
+                                desc: "Un seul système interconnectant le siège et les 9 provinces en temps réel, sans coupure.",
                             },
                         ].map((item) => (
-                            <Card
-                                key={item.title}
-                                className="border-0 bg-white shadow-sm transition-shadow hover:shadow-md"
-                            >
-                                <CardContent className="pt-6">
-                                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-agasa-primary/10">
-                                        <item.icon className="h-6 w-6 text-agasa-primary" />
+                            <div key={item.title} className="relative group bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                                <div className="absolute inset-0 bg-gradient-to-br from-agasa-primary/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                                <div className="relative">
+                                    <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-xl bg-agasa-primary/10 text-agasa-primary group-hover:bg-agasa-primary group-hover:text-white transition-colors">
+                                        <item.icon className="h-7 w-7" />
                                     </div>
-                                    <h3 className="text-lg font-semibold text-foreground">
+                                    <h3 className="text-xl font-bold text-slate-900">
                                         {item.title}
                                     </h3>
-                                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                                    <p className="mt-3 text-slate-600 leading-relaxed">
                                         {item.desc}
                                     </p>
-                                </CardContent>
-                            </Card>
+                                </div>
+                            </div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* Section Modules */}
-            <section className="bg-white py-16 lg:py-24">
+            {/* Section Acteurs */}
+            <section className="py-20 lg:py-28 bg-white border-y border-slate-100">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="text-center">
-                        <h2 className="text-3xl font-bold text-foreground">
-                            Une plateforme, tous vos outils
+                    <div className="grid lg:grid-cols-2 gap-16 items-center">
+                        <div>
+                            <span className="text-agasa-primary font-semibold tracking-wider uppercase text-sm">Les Acteurs</span>
+                            <h2 className="mt-3 text-3xl font-bold text-slate-900 sm:text-4xl">
+                                Conçu pour l&apos;humain, <br />pensé pour l&apos;action.
+                            </h2>
+                            <p className="mt-6 text-lg text-slate-600 leading-relaxed">
+                                AGASA-Core n&apos;est pas qu&apos;un logiciel. C&apos;est l&apos;outil de travail du quotidien pour des centaines d&apos;agents dédiés à la sécurité alimentaire du pays. Chaque rôle dispose d&apos;une interface sur-mesure.
+                            </p>
+
+                            <div className="mt-10 space-y-8">
+                                {acteurs.map((acteur) => (
+                                    <div key={acteur.role} className="flex gap-4">
+                                        <div className="shrink-0 mt-1">
+                                            <div className="h-12 w-12 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center shadow-sm">
+                                                <acteur.icon className="h-5 w-5 text-agasa-primary" />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h3 className="text-lg font-bold text-slate-900">{acteur.role}</h3>
+                                            <p className="mt-2 text-slate-600">{acteur.description}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="relative h-[600px] w-full rounded-3xl overflow-hidden shadow-2xl">
+                            <Image
+                                src="/images/module_rh.png"
+                                alt="Équipe AGASA"
+                                fill
+                                className="object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
+                            <div className="absolute bottom-8 left-8 right-8 text-white">
+                                <p className="font-semibold text-xl">L&apos;équipe AGASA au cœur de l&apos;innovation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Section Modules */}
+            <section className="bg-slate-50 py-20 lg:py-28">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="text-center max-w-3xl mx-auto mb-16">
+                        <span className="text-agasa-primary font-semibold tracking-wider uppercase text-sm">Modules Métier</span>
+                        <h2 className="mt-3 text-3xl font-bold text-slate-900 sm:text-4xl">
+                            Une plateforme unifiée
                         </h2>
-                        <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
-                            7 modules intégrés pour couvrir l&apos;ensemble des besoins de
-                            l&apos;AGASA
+                        <p className="mt-4 text-lg text-slate-600">
+                            Découvrez les différentes briques logicielles qui permettent de gérer l&apos;intégration complète de nos activités.
                         </p>
                     </div>
-                    <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                         {modules.map((mod) => (
-                            <Card
+                            <div
                                 key={mod.title}
-                                className="border transition-all hover:shadow-md"
+                                className="group relative flex flex-col overflow-hidden rounded-2xl bg-white shadow-md transition-all hover:shadow-xl hover:-translate-y-1"
                             >
-                                <CardContent className="pt-6">
-                                    <div
-                                        className={`mb-4 flex h-10 w-10 items-center justify-center rounded-lg ${mod.color}`}
-                                    >
+                                <div className="relative h-48 w-full overflow-hidden bg-slate-100">
+                                    <Image
+                                        src={mod.image}
+                                        alt={mod.title}
+                                        fill
+                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                    />
+                                    <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors duration-300" />
+                                </div>
+                                <div className="flex flex-1 flex-col p-6">
+                                    <div className={`mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg ${mod.color}`}>
                                         <mod.icon className="h-5 w-5" />
                                     </div>
-                                    <h3 className="font-semibold text-foreground">{mod.title}</h3>
-                                    <p className="mt-1.5 text-sm text-muted-foreground">
+                                    <h3 className="text-xl font-bold text-slate-900 mb-2">{mod.title}</h3>
+                                    <p className="text-sm text-slate-600 flex-1 leading-relaxed">
                                         {mod.description}
                                     </p>
-                                </CardContent>
-                            </Card>
+                                </div>
+                            </div>
                         ))}
                     </div>
                 </div>
             </section>
 
             {/* Section Comment ça marche */}
-            <section className="py-16 lg:py-24">
+            <section className="py-20 lg:py-28 bg-white">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="text-center">
-                        <h2 className="text-3xl font-bold text-foreground">
-                            Simple comme 1-2-3
+                    <div className="text-center max-w-3xl mx-auto">
+                        <h2 className="text-3xl font-bold text-slate-900">
+                            Prêt en 3 étapes
                         </h2>
-                        <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
-                            Trois étapes pour commencer à utiliser AGASA-Core
+                        <p className="mt-4 text-lg text-slate-600">
+                            Une adoption immédiate grâce à une interface centrée sur l&apos;utilisateur.
                         </p>
                     </div>
-                    <div className="mt-12 flex flex-col items-center gap-8 md:flex-row md:justify-center">
+                    <div className="mt-16 flex flex-col items-center gap-12 md:flex-row md:justify-center md:items-start md:gap-8 lg:gap-16">
                         {etapes.map((etape, i) => (
-                            <div key={etape.numero} className="flex items-start gap-4 md:flex-col md:items-center md:text-center">
-                                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-agasa-primary text-xl font-bold text-white shadow-lg">
+                            <div key={etape.numero} className="flex flex-col items-center text-center max-w-sm relative">
+                                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-agasa-primary to-agasa-secondary text-2xl font-bold text-white shadow-lg shadow-agasa-primary/20 mb-6 relative z-10">
                                     {etape.numero}
                                 </div>
-                                <div className="max-w-xs">
-                                    <h3 className="text-lg font-semibold text-foreground">
-                                        {etape.titre}
-                                    </h3>
-                                    <p className="mt-1 text-sm text-muted-foreground">
-                                        {etape.description}
-                                    </p>
-                                </div>
+                                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                                    {etape.titre}
+                                </h3>
+                                <p className="text-slate-600 leading-relaxed">
+                                    {etape.description}
+                                </p>
                                 {i < etapes.length - 1 && (
-                                    <ChevronRight className="hidden h-6 w-6 text-muted-foreground/50 md:block" />
+                                    <ChevronRight className="hidden h-8 w-8 text-slate-300 absolute -right-6 lg:-right-10 top-4 md:block" />
                                 )}
                             </div>
                         ))}
@@ -301,119 +357,19 @@ export default function PublicHomePage() {
                 </div>
             </section>
 
-            {/* Section Écosystème */}
-            <section className="bg-white py-16 lg:py-24">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="text-center">
-                        <h2 className="text-3xl font-bold text-foreground">
-                            AGASA-Core : le cœur de l&apos;écosystème numérique
-                        </h2>
-                        <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
-                            Toutes les données transitent par AGASA-Core. Aucune communication
-                            directe entre les autres applications.
-                        </p>
-                    </div>
-                    <div className="mt-12 flex justify-center">
-                        <div className="relative w-full max-w-2xl">
-                            {/* Hub central */}
-                            <div className="mx-auto flex h-36 w-36 flex-col items-center justify-center rounded-full bg-agasa-primary text-white shadow-xl">
-                                <Shield className="h-8 w-8" />
-                                <span className="mt-1 text-sm font-bold">AGASA-Core</span>
-                                <span className="text-xs opacity-75">Hub Central</span>
-                            </div>
-                            {/* Apps connectées */}
-                            <div className="mt-8 grid grid-cols-3 gap-4">
-                                {[
-                                    {
-                                        name: "AGASA-Pro",
-                                        desc: "Opérateurs économiques",
-                                        flux: "F1 ↔ F2",
-                                        color: "bg-blue-50 border-blue-200 text-blue-700",
-                                    },
-                                    {
-                                        name: "AGASA-Inspect",
-                                        desc: "Inspections terrain",
-                                        flux: "F3 ↔ F4",
-                                        color: "bg-amber-50 border-amber-200 text-amber-700",
-                                    },
-                                    {
-                                        name: "AGASA-Citoyen",
-                                        desc: "Grand public",
-                                        flux: "F5 ↔ F6",
-                                        color: "bg-green-50 border-green-200 text-green-700",
-                                    },
-                                ].map((app) => (
-                                    <div
-                                        key={app.name}
-                                        className={`rounded-xl border-2 p-4 text-center ${app.color}`}
-                                    >
-                                        <Monitor className="mx-auto h-6 w-6" />
-                                        <p className="mt-2 text-sm font-semibold">{app.name}</p>
-                                        <p className="text-xs opacity-75">{app.desc}</p>
-                                        <p className="mt-1 text-xs font-medium">{app.flux}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Section FAQ */}
-            <section className="py-16 lg:py-24">
-                <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-                    <div className="text-center">
-                        <HelpCircle className="mx-auto h-10 w-10 text-agasa-primary" />
-                        <h2 className="mt-4 text-3xl font-bold text-foreground">
-                            Questions fréquentes
-                        </h2>
-                    </div>
-                    <div className="mt-10 space-y-4">
-                        {faq.map((item) => (
-                            <details
-                                key={item.question}
-                                className="group rounded-xl border bg-white shadow-sm"
-                            >
-                                <summary className="flex cursor-pointer items-center justify-between p-5 text-left font-medium text-foreground">
-                                    {item.question}
-                                    <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground transition-transform group-open:rotate-90" />
-                                </summary>
-                                <div className="px-5 pb-5 text-sm leading-relaxed text-muted-foreground">
-                                    {item.reponse}
-                                </div>
-                            </details>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
             {/* CTA Final */}
-            <section className="bg-agasa-primary py-16">
-                <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-                    <CheckCircle className="mx-auto h-12 w-12 text-white/80" />
-                    <h2 className="mt-4 text-3xl font-bold text-white">
-                        Prêt à commencer ?
+            <section className="bg-agasa-primary py-20 lg:py-24 relative overflow-hidden">
+                <div className="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%221%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')]" />
+                <div className="relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+                    <Shield className="mx-auto h-16 w-16 text-white/90 drop-shadow-md mb-6" />
+                    <h2 className="text-3xl font-bold text-white sm:text-4xl drop-shadow-sm">
+                        Rejoignez la révolution digitale
                     </h2>
-                    <p className="mx-auto mt-3 max-w-xl text-white/75">
-                        Connectez-vous avec vos identifiants AGASA ou explorez la
-                        plateforme en mode démonstration.
+                    <p className="mx-auto mt-6 max-w-2xl text-lg text-white/80 font-medium">
+                        Connectez-vous avec vos identifiants ou explorez la plateforme via le compte de démonstration pour découvrir toute sa puissance.
                     </p>
-                    <div className="mt-8 flex flex-wrap justify-center gap-4">
-                        <Button
-                            asChild
-                            size="lg"
-                            className="bg-white text-agasa-primary hover:bg-white/90"
-                        >
-                            <Link href="/connexion">Se connecter</Link>
-                        </Button>
-                        <Button
-                            asChild
-                            size="lg"
-                            variant="outline"
-                            className="border-white/30 bg-transparent text-white hover:bg-white/10"
-                        >
-                            <Link href="/demo">Explorer la démo</Link>
-                        </Button>
+                    <div className="mt-10">
+                        <CtaActions />
                     </div>
                 </div>
             </section>

@@ -7,7 +7,39 @@ export const getDashboardInfo = query({
         const agent = await ctx.db.query("agents").withIndex("by_userId", q => q.eq("userId", args.userId)).first();
         const user = await ctx.db.get(args.userId);
 
-        if (!agent || !user) return null;
+        if (!user) return null;
+
+        if (!agent) {
+            return {
+                agent: {
+                    userId: user._id,
+                    poste: "Profil non initialisé",
+                    direction: user.direction || "Générale",
+                    service: "N/A",
+                    province: user.province || "Estuaire",
+                    competences: [],
+                    etatCivil: {
+                        dateNaissance: "N/A",
+                        lieuNaissance: "N/A",
+                        nationalite: "Gabonaise",
+                        situationFamiliale: "Célibataire",
+                        nombreEnfants: 0,
+                        adresse: "N/A",
+                        cni: "N/A"
+                    },
+                    grade: "A1",
+                    echelon: 1,
+                    dateRecrutement: Date.now(),
+                    contratType: "fonctionnaire",
+                    statut: "en_poste"
+                },
+                user,
+                soldeConges: 0,
+                dernierConge: null,
+                dernierBulletin: null,
+                prochaineFormation: null,
+            };
+        }
 
         // 1. Solde Congés (Simplifié: 30 jours/an)
         // Calculer les congés pris
@@ -86,7 +118,45 @@ export const getMyProfile = query({
     handler: async (ctx, args) => {
         const agent = await ctx.db.query("agents").withIndex("by_userId", q => q.eq("userId", args.userId)).first();
         const user = await ctx.db.get(args.userId);
-        if (!agent || !user) return null;
+
+        if (!user) return null;
+
+        if (!agent) {
+            return {
+                agent: {
+                    userId: user._id,
+                    poste: "Profil non initialisé",
+                    direction: user.direction || "Générale",
+                    service: "N/A",
+                    province: user.province || "Estuaire",
+                    competences: [],
+                    etatCivil: {
+                        dateNaissance: "N/A",
+                        lieuNaissance: "N/A",
+                        nationalite: "Gabonaise",
+                        situationFamiliale: "Célibataire",
+                        nombreEnfants: 0,
+                        adresse: "N/A",
+                        cni: "N/A"
+                    },
+                    soldeConges: 0,
+                    dateRecrutement: Date.now(),
+                    contratType: "fonctionnaire",
+                    statut: "en_poste",
+                    grade: "A1",
+                    echelon: 1
+                },
+                user: {
+                    nom: user.nom,
+                    prenom: user.prenom,
+                    email: user.email,
+                    matricule: user.matricule || "N/A",
+                    telephone: user.telephone || "",
+                    avatar: user.avatar || "",
+                    role: user.role,
+                },
+            };
+        }
 
         // Solde de congés
         const congesApprouves = await ctx.db.query("conges")

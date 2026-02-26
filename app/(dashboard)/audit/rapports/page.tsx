@@ -1,11 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { useAuth } from "@/components/providers/AuthProvider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-    ClipboardCheck, Download, Calendar, FileText, Settings2,
+    ClipboardCheck, Download, Calendar, FileText, Settings2, Loader2,
 } from "lucide-react";
 import {
     Select, SelectContent, SelectItem, SelectTrigger, SelectValue
@@ -19,15 +22,20 @@ const rapportTypes = [
     { id: "custom", label: "Rapport d'audit personnalisé", description: "Sélectionnez les modules et la période pour un rapport sur mesure.", delai: "Variable" },
 ];
 
-const historiqueRapports = [
-    { date: "25/02/2026", type: "Mensuel", titre: "Rapport opérationnel — Janvier 2026", generePar: "Auditeur", format: "PDF", taille: "3.2 Mo" },
-    { date: "20/02/2026", type: "Personnalisé", titre: "Audit redevances OLAM — 2025", generePar: "Auditeur", format: "Excel", taille: "5.8 Mo" },
-    { date: "15/01/2026", type: "Annuel", titre: "Rapport Cour des Comptes — 2025", generePar: "DG", format: "PDF", taille: "28.4 Mo" },
-    { date: "10/01/2026", type: "CA", titre: "Présentation CA — Q4 2025", generePar: "DG", format: "PDF", taille: "8.1 Mo" },
-];
-
 export default function AuditRapportsPage() {
+    const { user } = useAuth();
+    const userId = user?._id;
     const [selectedType, setSelectedType] = useState("");
+
+    const rapports = useQuery(api.audit.stats.getRapportsHistory, userId ? { userId } : "skip");
+
+    if (rapports === undefined) {
+        return (
+            <div className="flex h-[60vh] items-center justify-center">
+                <Loader2 className="h-8 w-8 animate-spin text-slate-600" />
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-6">
@@ -102,24 +110,30 @@ export default function AuditRapportsPage() {
                 </CardHeader>
                 <CardContent className="p-0">
                     <div className="divide-y">
-                        {historiqueRapports.map((r, i) => (
-                            <div key={i} className="flex items-center justify-between px-5 py-3 hover:bg-slate-50/60 transition-colors">
-                                <div>
-                                    <p className="text-sm font-medium">{r.titre}</p>
-                                    <div className="flex items-center gap-2 mt-1">
-                                        <Badge variant="outline" className="text-[10px]">{r.type}</Badge>
-                                        <span className="text-xs text-slate-400">{r.date}</span>
-                                        <span className="text-xs text-slate-400">par {r.generePar}</span>
+                        {rapports.length === 0 ? (
+                            <div className="px-5 py-12 text-center text-sm text-muted-foreground">
+                                Aucun rapport généré dans l&apos;historique d&apos;audit.
+                            </div>
+                        ) : (
+                            rapports.map((r: any, i: number) => (
+                                <div key={i} className="flex items-center justify-between px-5 py-3 hover:bg-slate-50/60 transition-colors">
+                                    <div>
+                                        <p className="text-sm font-medium">{r.titre}</p>
+                                        <div className="flex items-center gap-2 mt-1">
+                                            <Badge variant="outline" className="text-[10px]">{r.type}</Badge>
+                                            <span className="text-xs text-slate-400">{r.date}</span>
+                                            <span className="text-xs text-slate-400">par {r.generePar}</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <Badge variant="secondary" className="text-xs">{r.format}</Badge>
+                                        <Button variant="ghost" size="sm" className="text-xs gap-1" onClick={() => alert("Téléchargement — Phase 2")}>
+                                            <Download className="h-3 w-3" />
+                                        </Button>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-3">
-                                    <Badge variant="secondary" className="text-xs">{r.format} ({r.taille})</Badge>
-                                    <Button variant="ghost" size="sm" className="text-xs gap-1" onClick={() => alert("Téléchargement — Phase 2")}>
-                                        <Download className="h-3 w-3" />
-                                    </Button>
-                                </div>
-                            </div>
-                        ))}
+                            ))
+                        )}
                     </div>
                 </CardContent>
             </Card>

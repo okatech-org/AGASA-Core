@@ -1,27 +1,33 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { useAuth } from "@/components/providers/AuthProvider";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-    Network, CheckCircle2, XCircle, ArrowRightLeft, Download, Activity,
+    Network, CheckCircle2, XCircle, ArrowRightLeft, Download, Activity, Loader2,
 } from "lucide-react";
 import {
     Table, TableBody, TableCell, TableHead, TableHeader, TableRow
 } from "@/components/ui/table";
 
-const demoFlux = [
-    { id: "F1", nom: "AGASA-Core → Trésor Public", source: "AGASA-Core", destination: "Trésor Public", type: "Redevances", statut: "actif", succes: 99.2, dernierMsg: "25/02/2026 14:00", messages24h: 45 },
-    { id: "F2", nom: "AGASA-Inspect → AGASA-Core", source: "AGASA-Inspect", destination: "AGASA-Core", type: "Rapports inspection", statut: "actif", succes: 97.8, dernierMsg: "25/02/2026 13:30", messages24h: 23 },
-    { id: "F3", nom: "AGASA-Core → LIMS (LAA)", source: "AGASA-Core", destination: "LAA", type: "Échantillons", statut: "actif", succes: 100, dernierMsg: "25/02/2026 12:15", messages24h: 12 },
-    { id: "F4", nom: "AGASA-Pro → AGASA-Core", source: "AGASA-Pro", destination: "AGASA-Core", type: "Demandes opérateurs", statut: "actif", succes: 95.6, dernierMsg: "25/02/2026 11:45", messages24h: 34 },
-    { id: "F5", nom: "AGASA-Core → eSanté", source: "AGASA-Core", destination: "eSanté", type: "Alertes sanitaires", statut: "inactif", succes: 0, dernierMsg: "20/02/2026 08:00", messages24h: 0 },
-    { id: "F6", nom: "CEBEVIRHA → AGASA-Core", source: "CEBEVIRHA", destination: "AGASA-Core", type: "Notifications CEMAC", statut: "actif", succes: 100, dernierMsg: "24/02/2026 16:00", messages24h: 3 },
-];
-
 export default function AuditFluxPage() {
-    const actifs = demoFlux.filter(f => f.statut === "actif").length;
-    const totalMessages = demoFlux.reduce((s, f) => s + f.messages24h, 0);
+    const { user } = useAuth();
+    const userId = user?._id;
+    const flux = useQuery(api.audit.stats.getFlux, userId ? { userId } : "skip");
+
+    if (flux === undefined) {
+        return (
+            <div className="flex h-[60vh] items-center justify-center">
+                <Loader2 className="h-8 w-8 animate-spin text-slate-600" />
+            </div>
+        );
+    }
+
+    const actifs = flux.filter((f: any) => f.statut === "actif").length;
+    const totalMessages = flux.reduce((s: number, f: any) => s + f.messages24h, 0);
 
     return (
         <div className="space-y-6">
@@ -41,13 +47,13 @@ export default function AuditFluxPage() {
                 <Card className="shadow-sm">
                     <CardContent className="p-5">
                         <p className="text-sm text-slate-500">Interfaces configurées</p>
-                        <p className="text-2xl font-bold mt-1">{demoFlux.length}</p>
+                        <p className="text-2xl font-bold mt-1">{flux.length}</p>
                     </CardContent>
                 </Card>
                 <Card className="shadow-sm border-emerald-100">
                     <CardContent className="p-5">
                         <p className="text-sm text-slate-500 flex items-center gap-1"><CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" /> Actifs</p>
-                        <p className="text-2xl font-bold text-emerald-700 mt-1">{actifs} / {demoFlux.length}</p>
+                        <p className="text-2xl font-bold text-emerald-700 mt-1">{actifs} / {flux.length}</p>
                     </CardContent>
                 </Card>
                 <Card className="shadow-sm">
@@ -74,7 +80,7 @@ export default function AuditFluxPage() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {demoFlux.map((f) => (
+                            {flux.map((f: any) => (
                                 <TableRow key={f.id} className="hover:bg-slate-50/60">
                                     <TableCell className="font-mono text-xs">{f.id}</TableCell>
                                     <TableCell className="font-medium text-sm">{f.nom}</TableCell>

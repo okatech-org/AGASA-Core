@@ -1,12 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { useAuth } from "@/components/providers/AuthProvider";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-    Search, Download, FileSearch, Filter,
+    Search, Download, FileSearch, Filter, Loader2,
 } from "lucide-react";
 import {
     Table, TableBody, TableCell, TableHead, TableHeader, TableRow
@@ -15,37 +18,29 @@ import {
     Select, SelectContent, SelectItem, SelectTrigger, SelectValue
 } from "@/components/ui/select";
 
-const demoLogs = [
-    { date: "25/02/2026 14:22", utilisateur: "M. Obiang", role: "admin_systeme", module: "Utilisateurs", action: "Modification du rôle de Mme Nzé", ip: "41.158.22.11", details: "agent → directeur" },
-    { date: "25/02/2026 13:10", utilisateur: "DG", role: "directeur_general", module: "Workflows", action: "Validation du workflow WF-2026-0045", ip: "41.158.22.44", details: "Marché de réactifs — 12M FCFA" },
-    { date: "25/02/2026 11:45", utilisateur: "Mme Nzé", role: "technicien_laa", module: "LIMS", action: "Saisie résultat analyse AN-2026-0089", ip: "41.158.22.56", details: "Salmonella — CONFORME" },
-    { date: "25/02/2026 10:30", utilisateur: "M. Ondo", role: "directeur", module: "RH", action: "Validation congé — Ndong Paul (3j)", ip: "41.158.45.22", details: "Congé annuel approuvé" },
-    { date: "25/02/2026 09:15", utilisateur: "Admin Système", role: "admin_systeme", module: "Configuration", action: "Modification politique mot de passe", ip: "41.158.22.11", details: "Longueur min 12 → 14" },
-    { date: "24/02/2026 18:00", utilisateur: "DG", role: "directeur_general", module: "Signatures", action: "Signature document DOC-2026-0123", ip: "41.158.22.44", details: "Décision N°12/DG — Réorganisation LAA" },
-    { date: "24/02/2026 16:45", utilisateur: "Mme Mouele", role: "agent", module: "RH", action: "Soumission demande de congé", ip: "41.158.45.33", details: "Congé annuel — 5 jours" },
-    { date: "24/02/2026 15:20", utilisateur: "M. Obiang", role: "admin_systeme", module: "Sécurité", action: "Déverrouillage compte marc.mba@agasa.ga", ip: "41.158.22.11", details: "Compte bloqué après 7 tentatives" },
-    { date: "24/02/2026 14:00", utilisateur: "Mme Nzé", role: "technicien_laa", module: "LIMS", action: "Enregistrement échantillon ECH-2026-00456", ip: "41.158.22.56", details: "Viande bovine — Inspection terrain" },
-    { date: "24/02/2026 12:30", utilisateur: "M. Bongo", role: "directeur", module: "Finance", action: "Consultation budget DAF", ip: "41.158.12.78", details: "Budget Q1 2026 — 85% consommé" },
-    { date: "24/02/2026 11:00", utilisateur: "Admin Système", role: "admin_systeme", module: "API Gateway", action: "Redémarrage flux F3 (AGASA-Inspect)", ip: "41.158.22.11", details: "Erreur timeout résolu" },
-    { date: "24/02/2026 09:30", utilisateur: "DG", role: "directeur_general", module: "BI", action: "Export rapport mensuel — Février 2026", ip: "41.158.22.44", details: "Format PDF — Rapport opérationnel" },
-];
-
-const modules = ["Tous", "Utilisateurs", "Workflows", "LIMS", "RH", "Configuration", "Signatures", "Sécurité", "Finance", "API Gateway", "BI"];
+const modules = ["Tous", "RH", "FINANCE", "GED", "LIMS", "LOGISTIQUE", "ADMIN", "ALERTES"];
 
 export default function AuditJournalPage() {
+    const { user } = useAuth();
+    const userId = user?._id;
     const [search, setSearch] = useState("");
     const [moduleFilter, setModuleFilter] = useState("Tous");
 
-    const filtered = demoLogs.filter(log => {
-        const matchSearch = `${log.utilisateur} ${log.action} ${log.details} ${log.ip}`.toLowerCase().includes(search.toLowerCase());
-        const matchModule = moduleFilter === "Tous" || log.module === moduleFilter;
-        return matchSearch && matchModule;
+    const logs = useQuery(api.audit.stats.getJournal, userId ? {
+        userId,
+        module: moduleFilter !== "Tous" ? moduleFilter : undefined,
+    } : "skip");
+
+    const filtered = (logs ?? []).filter((log: any) => {
+        if (!search) return true;
+        const full = `${log.utilisateur} ${log.action} ${log.details} ${log.ipAddress}`.toLowerCase();
+        return full.includes(search.toLowerCase());
     });
 
     const handleExport = () => {
         const csv = [
             "Date;Utilisateur;Rôle;Module;Action;IP;Détails",
-            ...filtered.map(l => `${l.date};${l.utilisateur};${l.role};${l.module};${l.action};${l.ip};${l.details}`)
+            ...filtered.map((l: any) => `${new Date(l.timestamp).toLocaleString("fr-FR")};${l.utilisateur};${l.role};${l.module};${l.action};${l.ipAddress};${l.details}`)
         ].join("\n");
         const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
         const url = URL.createObjectURL(blob);
@@ -54,6 +49,14 @@ export default function AuditJournalPage() {
         a.download = `audit_journal_${new Date().toISOString().slice(0, 10)}.csv`;
         a.click();
     };
+
+    if (logs === undefined) {
+        return (
+            <div className="flex h-[60vh] items-center justify-center">
+                <Loader2 className="h-8 w-8 animate-spin text-slate-600" />
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-6">
@@ -100,17 +103,25 @@ export default function AuditJournalPage() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {filtered.map((log, i) => (
-                                <TableRow key={i} className="hover:bg-slate-50/60">
-                                    <TableCell className="text-xs font-mono text-slate-500">{log.date}</TableCell>
-                                    <TableCell className="font-medium text-sm">{log.utilisateur}</TableCell>
-                                    <TableCell><Badge variant="outline" className="text-[10px] capitalize">{log.role.replace(/_/g, " ")}</Badge></TableCell>
-                                    <TableCell><Badge variant="secondary" className="text-xs">{log.module}</Badge></TableCell>
-                                    <TableCell className="text-sm max-w-[250px] truncate">{log.action}</TableCell>
-                                    <TableCell className="text-xs font-mono">{log.ip}</TableCell>
-                                    <TableCell className="text-xs text-slate-500 max-w-[200px] truncate">{log.details}</TableCell>
+                            {filtered.length === 0 ? (
+                                <TableRow>
+                                    <TableCell colSpan={7} className="text-center text-sm text-muted-foreground py-12">
+                                        Aucune entrée d&apos;audit trouvée.
+                                    </TableCell>
                                 </TableRow>
-                            ))}
+                            ) : (
+                                filtered.map((log: any, i: number) => (
+                                    <TableRow key={log._id ?? i} className="hover:bg-slate-50/60">
+                                        <TableCell className="text-xs font-mono text-slate-500">{new Date(log.timestamp).toLocaleString("fr-FR")}</TableCell>
+                                        <TableCell className="font-medium text-sm">{log.utilisateur}</TableCell>
+                                        <TableCell><Badge variant="outline" className="text-[10px] capitalize">{log.role?.replace(/_/g, " ")}</Badge></TableCell>
+                                        <TableCell><Badge variant="secondary" className="text-xs">{log.module}</Badge></TableCell>
+                                        <TableCell className="text-sm max-w-[250px] truncate">{log.action}</TableCell>
+                                        <TableCell className="text-xs font-mono">{log.ipAddress}</TableCell>
+                                        <TableCell className="text-xs text-slate-500 max-w-[200px] truncate">{log.details}</TableCell>
+                                    </TableRow>
+                                ))
+                            )}
                         </TableBody>
                     </Table>
                 </CardContent>
