@@ -1,12 +1,17 @@
 // AGASA-Core — Admin Users Management
 import { query, mutation } from "../_generated/server";
 import { v } from "convex/values";
-import { logAction } from "./audit"; // Assume local internal import pattern or direct DB write
+
+const IS_DEMO_MODE =
+    process.env.NEXT_PUBLIC_ENABLE_DEMO_MODE === "true" ||
+    process.env.ENABLE_DEMO_MODE === "true";
 
 // Helper to check admin role
 const checkAdmin = async (ctx: any, userId: any) => {
     const user = await ctx.db.get(userId);
-    if (!user || (user.role !== "admin_systeme" && user.demoSimulatedRole !== "admin_systeme")) {
+    const isRealAdmin = user?.role === "admin_systeme";
+    const isDemoAdmin = IS_DEMO_MODE && user?.demoSimulatedRole === "admin_systeme";
+    if (!user || (!isRealAdmin && !isDemoAdmin)) {
         throw new Error("Accès refusé : privilèges administrateur requis.");
     }
     return user;

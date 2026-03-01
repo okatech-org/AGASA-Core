@@ -6,7 +6,18 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "gcp:setup": "bash ./scripts/setup-gcp.sh",
+    "m4:preflight": "bash ./scripts/cloudsql/preflight-m4.sh",
+    "cloudsql:bootstrap": "bash ./scripts/cloudsql/bootstrap-hub.sh",
+    "cloudsql:proxy": "bash ./scripts/cloudsql/start-proxy.sh",
+    "cloudsql:migrate": "bash ./scripts/cloudsql/apply-migrations.sh",
+    "sync:convex-to-postgres": "bash ./scripts/sync/convex-to-postgres.sh",
+    "sync:postgres-to-convex": "bash ./scripts/sync/postgres-to-convex.sh",
+    "sync:bidirectional": "bash ./scripts/sync/run-bidirectional.sh",
+    "deploy:cloudrun": "bash ./scripts/deploy.sh",
+    "m4:dev-sequence": "bash ./scripts/m4/dev-sequence.sh",
+    "m4:prod-sequence": "bash ./scripts/m4/prod-sequence.sh"
   },
   "dependencies": {
     "@types/leaflet": "^1.9.21",

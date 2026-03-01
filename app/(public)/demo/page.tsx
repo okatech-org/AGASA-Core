@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword } from "@/lib/firebase";
 import { useMutation } from "convex/react";
@@ -70,16 +70,26 @@ const DEMO_ACCOUNTS = [
 ];
 
 export default function DemoPage() {
+    const enableDemoMode = process.env.NEXT_PUBLIC_ENABLE_DEMO_MODE === "true";
     const router = useRouter();
     const [loadingEmail, setLoadingEmail] = useState<string | null>(null);
     const syncUser = useMutation(api.auth.syncUser);
     const { auth } = require("@/lib/firebase");
 
+    useEffect(() => {
+        if (!enableDemoMode) {
+            router.replace("/");
+        }
+    }, [enableDemoMode, router]);
+
+    if (!enableDemoMode) return null;
+
     const handleDemoLogin = async (email: string, simulatedRole: string) => {
         setLoadingEmail(email);
         try {
             // Create user context silently via firebase
-            const { user } = await signInWithEmailAndPassword(auth, email, "agasa-demo-2026!");
+            const demoPassword = process.env.NEXT_PUBLIC_DEMO_PASSWORD || "DISABLED_DEMO_PASSWORD";
+            const { user } = await signInWithEmailAndPassword(auth, email, demoPassword);
 
             // Force sync with the assigned simulated role
             await syncUser({

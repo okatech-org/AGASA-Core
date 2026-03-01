@@ -10,7 +10,7 @@ export default function DashboardLayout({
     return (
         <>
             <DemoBanner />
-            <div className="flex min-h-screen w-full flex-col bg-[#F8F9FA]">
+            <div className="flex min-h-screen w-full flex-col bg-background">
                 <Header />
                 <div className="flex flex-1 overflow-hidden">
                     <Sidebar />

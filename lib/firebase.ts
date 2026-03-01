@@ -20,6 +20,7 @@ const firebaseConfig = {
 
 // Check if we are using the dummy config (for dev/demo mode)
 const isDummyConfig = firebaseConfig.apiKey === "dummy-api-key-for-dev-only-not-for-prod";
+const enableDemoMode = process.env.NEXT_PUBLIC_ENABLE_DEMO_MODE === "true";
 
 let app: any;
 let auth: any;
@@ -29,73 +30,91 @@ let customOnAuthStateChanged: typeof onAuthStateChanged;
 let customSendPasswordResetEmail: (auth: any, email: string) => Promise<void>;
 
 if (isDummyConfig) {
-    console.log("⚠️ USING MOCK FIREBASE AUTH FOR DEVELOPMENT ⚠️");
-    app = {} as any;
-    auth = {} as any;
+    if (!enableDemoMode) {
+        console.warn("Firebase non configuré: authentification désactivée.");
+        app = {} as any;
+        auth = {} as any;
 
-    // Simple state machine for mock auth
-    let currentUser: any = null;
-
-    // Try to load mock session from localStorage
-    if (typeof window !== "undefined") {
-        try {
-            const stored = localStorage.getItem("mock_firebase_user");
-            if (stored) currentUser = JSON.parse(stored);
-        } catch (e) { }
-    }
-
-    const listeners: Array<(user: any) => void> = [];
-    const notifyListeners = () => listeners.forEach((l) => l(currentUser));
-
-    customSignIn = async (authObj: any, email: string, password: string) => {
-        return new Promise((resolve) => {
-            // Simulate network delay
-            setTimeout(() => {
-                currentUser = {
-                    uid: "mock-uid-" + email.replace(/[^a-zA-Z0-9]/g, ""),
-                    email: email,
-                    displayName: email.split("@")[0]
-                };
-                if (typeof window !== "undefined") {
-                    localStorage.setItem("mock_firebase_user", JSON.stringify(currentUser));
-                }
-                notifyListeners();
-                resolve({ user: currentUser } as any);
-            }, 600);
-        });
-    };
-
-    customSendPasswordResetEmail = async (_authObj: any, email: string) => {
-        return new Promise<void>((resolve) => {
-            setTimeout(() => {
-                console.log(`📧 [MOCK] Lien de réinitialisation envoyé à ${email}`);
-                resolve();
-            }, 800);
-        });
-    };
-
-    customSignOut = async (authObj: any) => {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                currentUser = null;
-                if (typeof window !== "undefined") {
-                    localStorage.removeItem("mock_firebase_user");
-                }
-                notifyListeners();
-                resolve();
-            }, 300);
-        });
-    };
-
-    customOnAuthStateChanged = (authObj: any, callback: any) => {
-        listeners.push(callback);
-        // Fire immediately with current state
-        setTimeout(() => callback(currentUser), 0);
-        return () => {
-            const idx = listeners.indexOf(callback);
-            if (idx > -1) listeners.splice(idx, 1);
+        customSignIn = async () => {
+            throw new Error("Authentification indisponible: configurez Firebase.");
         };
-    };
+        customSendPasswordResetEmail = async () => {
+            throw new Error("Réinitialisation indisponible: configurez Firebase.");
+        };
+        customSignOut = async () => undefined as any;
+        customOnAuthStateChanged = (_authObj: any, callback: any) => {
+            callback(null);
+            return () => undefined;
+        };
+    } else {
+        console.log("⚠️ USING MOCK FIREBASE AUTH FOR DEVELOPMENT ⚠️");
+        app = {} as any;
+        auth = {} as any;
+
+        // Simple state machine for mock auth
+        let currentUser: any = null;
+
+        // Try to load mock session from localStorage
+        if (typeof window !== "undefined") {
+            try {
+                const stored = localStorage.getItem("mock_firebase_user");
+                if (stored) currentUser = JSON.parse(stored);
+            } catch (e) { }
+        }
+
+        const listeners: Array<(user: any) => void> = [];
+        const notifyListeners = () => listeners.forEach((l) => l(currentUser));
+
+        customSignIn = async (authObj: any, email: string, password: string) => {
+            return new Promise((resolve) => {
+                // Simulate network delay
+                setTimeout(() => {
+                    currentUser = {
+                        uid: "mock-uid-" + email.replace(/[^a-zA-Z0-9]/g, ""),
+                        email: email,
+                        displayName: email.split("@")[0]
+                    };
+                    if (typeof window !== "undefined") {
+                        localStorage.setItem("mock_firebase_user", JSON.stringify(currentUser));
+                    }
+                    notifyListeners();
+                    resolve({ user: currentUser } as any);
+                }, 600);
+            });
+        };
+
+        customSendPasswordResetEmail = async (_authObj: any, email: string) => {
+            return new Promise<void>((resolve) => {
+                setTimeout(() => {
+                    console.log(`📧 [MOCK] Lien de réinitialisation envoyé à ${email}`);
+                    resolve();
+                }, 800);
+            });
+        };
+
+        customSignOut = async (authObj: any) => {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    currentUser = null;
+                    if (typeof window !== "undefined") {
+                        localStorage.removeItem("mock_firebase_user");
+                    }
+                    notifyListeners();
+                    resolve();
+                }, 300);
+            });
+        };
+
+        customOnAuthStateChanged = (authObj: any, callback: any) => {
+            listeners.push(callback);
+            // Fire immediately with current state
+            setTimeout(() => callback(currentUser), 0);
+            return () => {
+                const idx = listeners.indexOf(callback);
+                if (idx > -1) listeners.splice(idx, 1);
+            };
+        };
+    }
 } else {
     // Initialize Real Firebase
     app = getApps().length ? getApp() : initializeApp(firebaseConfig);

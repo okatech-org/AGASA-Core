@@ -1,5 +1,6 @@
 import { internalMutation } from "../_generated/server";
 import { v } from "convex/values";
+import { CATEGORIES_ACTION, CORTEX, SIGNAL_TYPES, genererCorrelationId } from "../lib/neocortex";
 
 export const logFlux = internalMutation({
     args: {
@@ -12,17 +13,61 @@ export const logFlux = internalMutation({
         erreur: v.optional(v.string())
     },
     handler: async (ctx, args) => {
-        return await ctx.db.insert("fluxInterApps", {
-            fluxCode: args.fluxCode as any,
+        const now = Date.now();
+        const fluxId = await ctx.db.insert("fluxInterApps", {
+            fluxCode: args.fluxCode,
             sourceApp: args.sourceApp,
             destinationApp: args.destinationApp,
             typeMessage: args.typeMessage,
-            dateEnvoi: Date.now(),
-            dateReception: Date.now(),
+            dateEnvoi: now,
+            dateReception: now,
             payload: args.payload,
-            statut: args.statut as any,
+            statut: args.statut,
             erreur: args.erreur,
             tentatives: 1
         });
+
+        const correlationId = genererCorrelationId();
+        await ctx.db.insert("signaux", {
+            type: SIGNAL_TYPES.FLUX_RECU,
+            source: CORTEX.GATEWAY,
+            destination: CORTEX.LIMBIQUE,
+            entiteType: "fluxInterApps",
+            entiteId: String(fluxId),
+            payload: {
+                fluxCode: args.fluxCode,
+                sourceApp: args.sourceApp,
+                destinationApp: args.destinationApp,
+                typeMessage: args.typeMessage,
+                statut: args.statut,
+            },
+            confiance: 1,
+            priorite: args.statut === "erreur" ? "CRITICAL" : "NORMAL",
+            correlationId,
+            traite: false,
+            timestamp: now,
+        });
+
+        await ctx.db.insert("historiqueActions", {
+            action: "GATEWAY_LOG_FLUX",
+            categorie: CATEGORIES_ACTION.SYSTEME,
+            entiteType: "fluxInterApps",
+            entiteId: String(fluxId),
+            userId: "system",
+            details: {
+                fluxCode: args.fluxCode,
+                sourceApp: args.sourceApp,
+                destinationApp: args.destinationApp,
+                typeMessage: args.typeMessage,
+                statut: args.statut,
+                erreur: args.erreur,
+            },
+            metadata: {
+                source: CORTEX.GATEWAY,
+            },
+            timestamp: now,
+        });
+
+        return fluxId;
     }
 });

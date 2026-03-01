@@ -17,7 +17,8 @@ gcloud services enable \
   run.googleapis.com \
   cloudbuild.googleapis.com \
   artifactregistry.googleapis.com \
-  secretmanager.googleapis.com
+  secretmanager.googleapis.com \
+  sqladmin.googleapis.com
 
 echo "📦 3. Création du registre Docker (Artifact Registry)..."
 if ! gcloud artifacts repositories describe $REPO_NAME --location=$REGION > /dev/null 2>&1; then

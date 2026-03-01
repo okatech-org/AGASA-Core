@@ -77,11 +77,102 @@ export const executerRecouvrementAuto = internalMutation({
     }
 });
 
+export const maintenanceNeocortex = internalMutation({
+    args: {},
+    handler: async (ctx) => {
+        const now = Date.now();
+        const retentionMs = 7 * 24 * 60 * 60 * 1000;
+        const signaux = await ctx.db.query("signaux").collect();
+
+        let deleted = 0;
+        let nonTraites = 0;
+        for (const signal of signaux) {
+            if (!signal.traite) nonTraites += 1;
+            const expireByRetention = signal.traite && signal.timestamp < now - retentionMs;
+            const expireByTtl = signal.ttl ? signal.timestamp + signal.ttl < now : false;
+            if (expireByRetention || expireByTtl) {
+                await ctx.db.delete(signal._id);
+                deleted += 1;
+            }
+        }
+
+        await ctx.db.insert("metriques", {
+            nom: "maintenance_signaux_deleted",
+            valeur: deleted,
+            unite: "count",
+            periode: "daily",
+            dimensions: { source: "crons" },
+            timestamp: now,
+        });
+
+        await ctx.db.insert("metriques", {
+            nom: "maintenance_signaux_non_traites",
+            valeur: nonTraites,
+            unite: "count",
+            periode: "daily",
+            dimensions: { source: "crons" },
+            timestamp: now,
+        });
+
+        return { deleted, nonTraites };
+    },
+});
+
+export const snapshotMetriquesNeocortex = internalMutation({
+    args: {},
+    handler: async (ctx) => {
+        const now = Date.now();
+        const oneHour = 60 * 60 * 1000;
+        const since = now - oneHour;
+
+        const signaux = await ctx.db
+            .query("signaux")
+            .withIndex("by_timestamp", (q) => q.gte("timestamp", since))
+            .collect();
+        const historiques = await ctx.db
+            .query("historiqueActions")
+            .withIndex("by_timestamp", (q) => q.gte("timestamp", since))
+            .collect();
+
+        await ctx.db.insert("metriques", {
+            nom: "signaux_1h",
+            valeur: signaux.length,
+            unite: "count",
+            periode: "hourly",
+            dimensions: { source: "crons" },
+            timestamp: now,
+        });
+
+        await ctx.db.insert("metriques", {
+            nom: "historique_actions_1h",
+            valeur: historiques.length,
+            unite: "count",
+            periode: "hourly",
+            dimensions: { source: "crons" },
+            timestamp: now,
+        });
+
+        return { signaux: signaux.length, historiques: historiques.length };
+    },
+});
+
 // Définition de la tâche planifiée : Tous les jours à 6h00 (UTC)
 crons.daily(
     "Recouvrement automatique des redevances",
     { hourUTC: 6, minuteUTC: 0 },
     internal.crons.executerRecouvrementAuto
+);
+
+crons.daily(
+    "Maintenance NEOCORTEX",
+    { hourUTC: 2, minuteUTC: 30 },
+    internal.crons.maintenanceNeocortex
+);
+
+crons.hourly(
+    "Snapshot métriques NEOCORTEX",
+    { minuteUTC: 5 },
+    internal.crons.snapshotMetriquesNeocortex
 );
 
 export default crons;

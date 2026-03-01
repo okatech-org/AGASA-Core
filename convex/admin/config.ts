@@ -2,9 +2,15 @@
 import { query, mutation } from "../_generated/server";
 import { v } from "convex/values";
 
+const IS_DEMO_MODE =
+    process.env.NEXT_PUBLIC_ENABLE_DEMO_MODE === "true" ||
+    process.env.ENABLE_DEMO_MODE === "true";
+
 const checkAdmin = async (ctx: any, userId: any) => {
     const user = await ctx.db.get(userId);
-    if (!user || (user.role !== "admin_systeme" && user.demoSimulatedRole !== "admin_systeme")) {
+    const isRealAdmin = user?.role === "admin_systeme";
+    const isDemoAdmin = IS_DEMO_MODE && user?.demoSimulatedRole === "admin_systeme";
+    if (!user || (!isRealAdmin && !isDemoAdmin)) {
         throw new Error("Accès refusé : privilèges administrateur requis.");
     }
     return user;

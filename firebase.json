@@ -8,7 +8,7 @@
             {
                 "source": "**",
                 "run": {
-                    "serviceId": "agasa-core-service",
+                    "serviceId": "agasa-core",
                     "region": "europe-west1"
                 }
             }

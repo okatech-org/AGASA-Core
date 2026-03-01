@@ -4,11 +4,16 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ============================================================================
+   AGASA Design System — Tokens & Primitives
+   ============================================================================ */
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-dm-sans);
+  --font-serif: var(--font-cormorant);
+  --font-mono: var(--font-geist-mono, ui-monospace, monospace);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -46,96 +51,564 @@
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
 
-  /* AGASA Custom Colors */
-  --color-agasa-primary: #1B4F72;
-  --color-agasa-primary-light: #2471A3;
-  --color-agasa-secondary: #2E86C1;
-  --color-agasa-accent: #27AE60;
-  --color-agasa-accent-light: #2ECC71;
-  --color-agasa-danger: #E74C3C;
-  --color-agasa-warning: #F39C12;
-  --color-agasa-warning-light: #F5B041;
-  --color-agasa-background: #F8F9FA;
-  --color-agasa-surface: #FFFFFF;
-  --color-agasa-text: #2C3E50;
-  --color-agasa-text-light: #7F8C8D;
+  /* ── AGASA Design System Colors (Tailwind mappings) ── */
+  --color-agasa-primary: var(--ds-primary);
+  --color-agasa-blue: var(--ds-blue);
+  --color-agasa-emerald: var(--ds-emerald);
+  --color-agasa-amber: var(--ds-amber);
+  --color-agasa-rose: var(--ds-rose);
+  --color-agasa-cyan: var(--ds-cyan);
+  --color-agasa-violet: var(--ds-violet);
+  --color-agasa-teal: var(--ds-teal);
+  --color-agasa-gold: var(--ds-gold);
+  --color-agasa-bg: var(--ds-bg);
+  --color-agasa-bg-card: var(--ds-bg-card);
+  --color-agasa-bg-muted: var(--ds-bg-muted);
+  --color-agasa-text: var(--ds-text);
+  --color-agasa-text-muted: var(--ds-text-muted);
+  --color-agasa-text-on-dark: var(--ds-text-on-dark);
+  --color-agasa-border: var(--ds-border);
+
+  /* ── Backwards-compatible aliases for old tokens ── */
+  --color-agasa-danger: var(--ds-rose);
+  --color-agasa-secondary: var(--ds-blue);
+  --color-agasa-accent: var(--ds-emerald);
+  --color-agasa-primary-light: var(--ds-blue);
+  --color-agasa-accent-light: hsl(160, 84%, 50%);
+  --color-agasa-warning: var(--ds-amber);
+  --color-agasa-warning-light: hsl(38, 92%, 60%);
+  --color-agasa-surface: var(--ds-bg-card);
+  --color-agasa-text-light: var(--ds-text-muted);
+  --color-agasa-background: var(--ds-bg);
 }
 
+/* ============================================================================
+   Light Theme (Default)
+   ============================================================================ */
 :root {
   --radius: 0.625rem;
-  /* AGASA Institutional Blue Theme */
-  --background: #F8F9FA;
-  --foreground: #1a1a2e;
-  --card: #FFFFFF;
-  --card-foreground: #1a1a2e;
-  --popover: #FFFFFF;
-  --popover-foreground: #1a1a2e;
-  --primary: #1B4F72;
-  --primary-foreground: #FFFFFF;
-  --secondary: #EBF5FB;
-  --secondary-foreground: #1B4F72;
-  --muted: #F0F3F5;
-  --muted-foreground: #6B7B8D;
-  --accent: #E8F8F0;
-  --accent-foreground: #1E8449;
-  --destructive: #E74C3C;
-  --border: #D5DBDB;
-  --input: #D5DBDB;
-  --ring: #2E86C1;
-  --chart-1: #1B4F72;
-  --chart-2: #27AE60;
-  --chart-3: #2E86C1;
-  --chart-4: #F39C12;
-  --chart-5: #E74C3C;
-  --sidebar: #FFFFFF;
-  --sidebar-foreground: #2C3E50;
-  --sidebar-primary: #1B4F72;
-  --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #EBF5FB;
-  --sidebar-accent-foreground: #1B4F72;
-  --sidebar-border: #E5E8EB;
-  --sidebar-ring: #2E86C1;
+
+  /* ── DS Semantic Tokens ── */
+  --ds-bg: hsl(220, 20%, 97%);
+  /* #f5f7fa */
+  --ds-bg-card: hsl(0, 0%, 100%);
+  /* #ffffff */
+  --ds-bg-muted: hsl(220, 14%, 95%);
+  /* #f0f2f5 */
+
+  --ds-text: hsl(230, 30%, 16%);
+  /* #1a1f36 */
+  --ds-text-muted: hsl(220, 9%, 46%);
+  /* #6b7280 — ratio ≥ 5.5:1 */
+  --ds-text-on-dark: hsl(215, 25%, 90%);
+  /* #e2e8f0 */
+
+  --ds-primary: hsl(222, 47%, 18%);
+  /* #17253f — Bleu marine AGASA */
+  --ds-blue: hsl(217, 91%, 60%);
+  /* #3b82f6 — Accent AGASA-Core */
+  --ds-emerald: hsl(160, 84%, 39%);
+  /* #10b981 */
+  --ds-amber: hsl(38, 92%, 50%);
+  /* #f59e0b */
+  --ds-rose: hsl(350, 89%, 60%);
+  /* #f43f5e */
+  --ds-cyan: hsl(189, 94%, 43%);
+  /* #06b6d4 */
+  --ds-violet: hsl(258, 90%, 66%);
+  /* #8b5cf6 */
+  --ds-teal: hsl(168, 76%, 42%);
+  /* #14b8a6 */
+  --ds-gold: hsl(48, 96%, 53%);
+  /* #eab308 */
+
+  --ds-border: hsl(220, 13%, 91%);
+  /* #e5e7eb */
+  --ds-ring: hsl(217, 91%, 60%);
+  /* = blue */
+
+  /* ── Ombres ── */
+  --shadow-sm: 0 1px 3px rgba(26, 39, 54, 0.06);
+  --shadow-md: 0 4px 24px -4px rgba(26, 39, 54, 0.10);
+  --shadow-elegant: 0 10px 40px -10px rgba(26, 39, 54, 0.18);
+  --shadow-glow: 0 8px 32px rgba(16, 185, 129, 0.30);
+
+  /* ── Neumorphisme ── */
+  --neu-light: rgba(255, 255, 255, 1);
+  --neu-dark: rgba(0, 0, 0, 0.06);
+
+  /* ── shadcn/ui token mapping ── */
+  --background: hsl(220, 20%, 97%);
+  --foreground: hsl(230, 30%, 16%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(230, 30%, 16%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(230, 30%, 16%);
+  --primary: hsl(217, 91%, 60%);
+  /* AGASA-Core accent = blue */
+  --primary-foreground: #ffffff;
+  --secondary: hsl(220, 14%, 95%);
+  --secondary-foreground: hsl(222, 47%, 18%);
+  --muted: hsl(220, 14%, 95%);
+  --muted-foreground: hsl(220, 9%, 46%);
+  --accent: hsl(220, 14%, 95%);
+  --accent-foreground: hsl(222, 47%, 18%);
+  --destructive: hsl(350, 89%, 60%);
+  --border: hsl(220, 13%, 91%);
+  --input: hsl(220, 13%, 91%);
+  --ring: hsl(217, 91%, 60%);
+
+  /* ── Charts ── */
+  --chart-1: hsl(217, 91%, 60%);
+  --chart-2: hsl(160, 84%, 39%);
+  --chart-3: hsl(38, 92%, 50%);
+  --chart-4: hsl(258, 90%, 66%);
+  --chart-5: hsl(350, 89%, 60%);
+
+  /* ── Sidebar ── */
+  --sidebar: hsl(0, 0%, 100%);
+  --sidebar-foreground: hsl(230, 30%, 16%);
+  --sidebar-primary: hsl(217, 91%, 60%);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: hsl(220, 14%, 95%);
+  --sidebar-accent-foreground: hsl(222, 47%, 18%);
+  --sidebar-border: hsl(220, 13%, 91%);
+  --sidebar-ring: hsl(217, 91%, 60%);
 }
 
+/* ============================================================================
+   Dark Theme
+   ============================================================================ */
 .dark {
-  --background: #0f172a;
-  --foreground: #f1f5f9;
-  --card: #1e293b;
-  --card-foreground: #f1f5f9;
-  --popover: #1e293b;
-  --popover-foreground: #f1f5f9;
-  --primary: #5DADE2;
-  --primary-foreground: #0f172a;
-  --secondary: #1e3a5f;
-  --secondary-foreground: #AED6F1;
-  --muted: #334155;
-  --muted-foreground: #94a3b8;
-  --accent: #1e3a2e;
-  --accent-foreground: #82E0AA;
-  --destructive: #E74C3C;
-  --border: rgba(255, 255, 255, 0.1);
-  --input: rgba(255, 255, 255, 0.15);
-  --ring: #5DADE2;
-  --chart-1: #5DADE2;
-  --chart-2: #58D68D;
-  --chart-3: #F5B041;
-  --chart-4: #AF7AC5;
-  --chart-5: #EC7063;
-  --sidebar: #1e293b;
-  --sidebar-foreground: #f1f5f9;
-  --sidebar-primary: #5DADE2;
-  --sidebar-primary-foreground: #0f172a;
-  --sidebar-accent: #1e3a5f;
-  --sidebar-accent-foreground: #AED6F1;
-  --sidebar-border: rgba(255, 255, 255, 0.1);
-  --sidebar-ring: #5DADE2;
+  --ds-bg: hsl(222, 47%, 7%);
+  --ds-bg-card: hsl(222, 40%, 13%);
+  --ds-bg-muted: hsl(222, 47%, 9%);
+  --ds-text: hsl(215, 25%, 90%);
+  --ds-text-muted: hsl(215, 16%, 65%);
+  --ds-text-on-dark: hsl(215, 25%, 90%);
+  --ds-border: hsl(217, 33%, 17%);
+
+  --neu-light: rgba(255, 255, 255, 0.04);
+  --neu-dark: rgba(0, 0, 0, 0.25);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.20);
+  --shadow-md: 0 4px 24px -4px rgba(0, 0, 0, 0.35);
+  --shadow-elegant: 0 10px 40px -10px rgba(0, 0, 0, 0.50);
+  --shadow-glow: 0 8px 32px rgba(16, 185, 129, 0.25);
+
+  --background: hsl(222, 47%, 7%);
+  --foreground: hsl(215, 25%, 90%);
+  --card: hsl(222, 40%, 13%);
+  --card-foreground: hsl(215, 25%, 90%);
+  --popover: hsl(222, 40%, 13%);
+  --popover-foreground: hsl(215, 25%, 90%);
+  --primary: hsl(217, 91%, 60%);
+  --primary-foreground: hsl(222, 47%, 7%);
+  --secondary: hsl(222, 47%, 9%);
+  --secondary-foreground: hsl(215, 25%, 90%);
+  --muted: hsl(217, 33%, 17%);
+  --muted-foreground: hsl(215, 16%, 65%);
+  --accent: hsl(222, 47%, 9%);
+  --accent-foreground: hsl(215, 25%, 90%);
+  --destructive: hsl(350, 89%, 60%);
+  --border: hsl(217, 33%, 17%);
+  --input: hsl(217, 33%, 22%);
+  --ring: hsl(217, 91%, 60%);
+
+  --chart-1: hsl(217, 91%, 65%);
+  --chart-2: hsl(160, 84%, 50%);
+  --chart-3: hsl(38, 92%, 55%);
+  --chart-4: hsl(258, 90%, 70%);
+  --chart-5: hsl(350, 89%, 65%);
+
+  --sidebar: hsl(222, 40%, 13%);
+  --sidebar-foreground: hsl(215, 25%, 90%);
+  --sidebar-primary: hsl(217, 91%, 60%);
+  --sidebar-primary-foreground: hsl(222, 47%, 7%);
+  --sidebar-accent: hsl(222, 47%, 9%);
+  --sidebar-accent-foreground: hsl(215, 25%, 90%);
+  --sidebar-border: hsl(217, 33%, 17%);
+  --sidebar-ring: hsl(217, 91%, 60%);
 }
 
+/* ============================================================================
+   Base Layer
+   ============================================================================ */
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-dm-sans), 'Segoe UI', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* ── Typographic Scale (§2.4) ── */
+  h1 {
+    font-family: var(--font-cormorant), Georgia, 'Times New Roman', serif;
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+  }
+
+  h2 {
+    font-family: var(--font-cormorant), Georgia, 'Times New Roman', serif;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  h3 {
+    font-family: var(--font-cormorant), Georgia, 'Times New Roman', serif;
+    font-size: clamp(22px, 2.5vw, 28px);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  h4 {
+    font-family: var(--font-cormorant), Georgia, 'Times New Roman', serif;
+    font-size: clamp(17px, 1.5vw, 20px);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  /* ── Maximum reading width ── */
+  p {
+    max-width: 75ch;
+  }
+
+  /* ── Focus ring (WCAG) ── */
+  :focus-visible {
+    outline: 2px solid var(--ds-blue);
+    outline-offset: 2px;
+  }
+}
+
+/* ============================================================================
+   Utility Classes — Typography
+   ============================================================================ */
+.font-serif {
+  font-family: var(--font-cormorant), Georgia, 'Times New Roman', serif;
+}
+
+.font-sans {
+  font-family: var(--font-dm-sans), 'Segoe UI', system-ui, sans-serif;
+}
+
+.text-lead {
+  font-family: var(--font-dm-sans), 'Segoe UI', system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+@media (max-width: 767px) {
+  .text-lead {
+    font-size: 16px;
+  }
+}
+
+.overline {
+  font-family: var(--font-dm-sans), 'Segoe UI', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ds-emerald);
+}
+
+/* ============================================================================
+   Surface Effects
+   ============================================================================ */
+
+/* ── Glassmorphism (header sticky + modales only) ── */
+.glass {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px) saturate(1.8);
+  -webkit-backdrop-filter: blur(16px) saturate(1.8);
+  border-bottom: 1px solid var(--ds-border);
+}
+
+.dark .glass {
+  background: rgba(19, 27, 46, 0.75);
+}
+
+/* ── Neumorphism (cards only — NEVER forms) ── */
+.neu-card {
+  box-shadow:
+    inset 2px 2px 6px var(--neu-light),
+    inset -2px -2px 6px var(--neu-dark),
+    0 1px 3px var(--neu-dark);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.neu-card:hover {
+  box-shadow: var(--shadow-elegant);
+  transform: translateY(-4px);
+}
+
+/* ── Gradients ── */
+.gradient-agasa {
+  background: linear-gradient(135deg, var(--ds-emerald), var(--ds-blue));
+}
+
+.gradient-hero {
+  background: linear-gradient(135deg, #0a1628 0%, #112240 40%, #0d3b2e 100%);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--ds-emerald), var(--ds-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================================================
+   Animations (§5 — CSS only, no JS libs)
+   ============================================================================ */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse-dot {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: scale(1.5);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.stagger-1 {
+  animation-delay: 0.0s;
+}
+
+.stagger-2 {
+  animation-delay: 0.1s;
+}
+
+.stagger-3 {
+  animation-delay: 0.15s;
+}
+
+.stagger-4 {
+  animation-delay: 0.2s;
+}
+
+.stagger-5 {
+  animation-delay: 0.25s;
+}
+
+.stagger-6 {
+  animation-delay: 0.3s;
+}
+
+.stagger-7 {
+  animation-delay: 0.35s;
+}
+
+.stagger-8 {
+  animation-delay: 0.4s;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ds-emerald);
+  animation: pulse-dot 2s infinite;
+}
+
+/* ── Accessibility: reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================================
+   Component Classes — Buttons (§6.1)
+   ============================================================================ */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-family: var(--font-dm-sans), 'Segoe UI', system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--ds-emerald), var(--ds-blue));
+  box-shadow: var(--shadow-glow);
+  border: none;
+  cursor: pointer;
+  min-height: 48px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(16, 185, 129, 0.4);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-family: var(--font-dm-sans), 'Segoe UI', system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--ds-text);
+  background: transparent;
+  border: 1px solid var(--ds-border);
+  cursor: pointer;
+  min-height: 48px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn-outline:hover {
+  background: var(--ds-bg-muted);
+}
+
+.btn-outline-dark {
+  color: rgba(255, 255, 255, 0.85);
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.btn-outline-dark:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ============================================================================
+   Component Classes — Badges (§6.3)
+   ============================================================================ */
+.badge-ds {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-family: var(--font-dm-sans), 'Segoe UI', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* ============================================================================
+   Component Classes — Icon Containers (§6.4)
+   ============================================================================ */
+.icon-container {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.icon-container:hover {
+  transform: scale(1.1);
+}
+
+/* ============================================================================
+   Container (§10)
+   ============================================================================ */
+.container-ds {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (max-width: 639px) {
+  .container-ds {
+    padding: 0 16px;
+  }
+}
+
+/* ============================================================================
+   Responsive Section Padding
+   ============================================================================ */
+.section-padding {
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding-top: 96px;
+    padding-bottom: 96px;
   }
 }

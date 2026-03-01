@@ -2,11 +2,17 @@
 import { query } from "../_generated/server";
 import { v } from "convex/values";
 
+const IS_DEMO_MODE =
+    process.env.NEXT_PUBLIC_ENABLE_DEMO_MODE === "true" ||
+    process.env.ENABLE_DEMO_MODE === "true";
+
 export const getDashboardStats = query({
     args: { userId: v.id("users") },
     handler: async (ctx, args) => {
         const admin = await ctx.db.get(args.userId);
-        if (!admin || (admin.role !== "admin_systeme" && admin.demoSimulatedRole !== "admin_systeme")) {
+        const isRealAdmin = admin?.role === "admin_systeme";
+        const isDemoAdmin = IS_DEMO_MODE && admin?.demoSimulatedRole === "admin_systeme";
+        if (!admin || (!isRealAdmin && !isDemoAdmin)) {
             return null;
         }
         // Total Users
