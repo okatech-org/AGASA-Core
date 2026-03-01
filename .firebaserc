@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "digitalium-ga"
+  },
+  "targets": {
+    "digitalium-ga": {
+      "hosting": {
+        "agasa-core": [
+          "agasa-core"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
