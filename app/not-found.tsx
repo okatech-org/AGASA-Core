@@ -20,7 +20,7 @@ export default function NotFound() {
                         Page introuvable
                     </h1>
                     <p className="text-base text-slate-500 max-w-sm mx-auto">
-                        Le document, module ou l'agent que vous recherchez n'existe pas ou a été déplacé dans le système AGASA-Core.
+                        Le document, module ou l'agent que vous recherchez n'existe pas ou a été déplacé dans le système AGASA-Admin.
                     </p>
                 </div>
 

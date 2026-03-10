@@ -158,7 +158,7 @@ export default function PublicHomePage() {
 
                         {/* H1 — Cormorant Garamond 700 */}
                         <h1 className="text-white">
-                            AGASA-Core
+                            AGASA-Admin
                             <span className="mt-3 block">
                                 Le Hub{" "}
                                 <span className="text-gradient">Numérique</span>{" "}
@@ -179,7 +179,7 @@ export default function PublicHomePage() {
                 </div>
 
                 {/* Stats Banner — glass, integrated at bottom */}
-                <div className="container-ds relative z-10 mt-16 lg:mt-24">
+                <div className="container-ds relative z-10" style={{marginTop: "10rem"}}>
                     <div className="glass rounded-2xl border border-white/10 p-6 lg:p-8">
                         <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
                             {stats.map((stat) => (
@@ -269,7 +269,7 @@ export default function PublicHomePage() {
                                 Conçu pour l&apos;humain, <br />pensé pour <span className="text-gradient">l&apos;action</span>.
                             </h2>
                             <p className="text-lead mt-6 text-[var(--ds-text-muted)]">
-                                AGASA-Core n&apos;est pas qu&apos;un logiciel. C&apos;est l&apos;outil de travail du quotidien pour des centaines d&apos;agents dédiés à la sécurité alimentaire du pays.
+                                AGASA-Admin n&apos;est pas qu&apos;un logiciel. C&apos;est l&apos;outil de travail du quotidien pour des centaines d&apos;agents dédiés à la sécurité alimentaire du pays.
                             </p>
 
                             <div className="mt-10 space-y-6">

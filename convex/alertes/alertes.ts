@@ -90,7 +90,7 @@ export const assignerAlerte = mutation({
             module: "ALERTES",
             details: `Alerte ${args.id} assignée.`,
             ipAddress: "127.0.0.1",
-            userAgent: "AGASA-Core",
+            userAgent: "AGASA-Admin",
             timestamp: Date.now(),
         });
 

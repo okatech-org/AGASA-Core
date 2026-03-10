@@ -5,7 +5,7 @@ import { validateGatewayRequest } from "../_utils";
 
 export const runtime = "nodejs";
 
-// Route F3 : AGASA-Inspect --> AGASA-Core
+// Route F3 : AGASA-Inspect --> AGASA-Admin
 export async function POST(req: Request) {
     try {
         const body = await req.json();

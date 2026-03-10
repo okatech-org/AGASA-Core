@@ -139,7 +139,7 @@ export const validerAnalyse = mutation({
                     agentId: user._id,
                     nomAgent: "Système LIMS",
                     action: `Toutes les analyses paramétriques ont été validées N2. Le dossier est clôturé (Prêt pour rapport).`,
-                    lieu: "Serveur AGASA-Core"
+                    lieu: "Serveur AGASA-Admin"
                 });
             }
         }

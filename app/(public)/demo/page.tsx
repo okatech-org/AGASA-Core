@@ -129,7 +129,7 @@ export default function DemoPage() {
         <div className="container mx-auto max-w-6xl px-4 py-16">
             <div className="mb-12 text-center">
                 <h1 className="mb-4 text-4xl font-extrabold tracking-tight text-agasa-primary sm:text-5xl">
-                    Découvrez AGASA-Core en action
+                    Découvrez AGASA-Admin en action
                 </h1>
                 <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
                     Explorez chaque espace de la plateforme avec des comptes de démonstration pré-configurés.

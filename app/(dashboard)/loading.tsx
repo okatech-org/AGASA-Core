@@ -9,7 +9,7 @@ export default function DashboardLoading() {
             </div>
             <div className="text-center space-y-2">
                 <h3 className="text-lg font-medium text-slate-800">Chargement des données...</h3>
-                <p className="text-sm text-slate-500 animate-pulse">Synchronisation avec le hub AGASA-Core</p>
+                <p className="text-sm text-slate-500 animate-pulse">Synchronisation avec le hub AGASA-Admin</p>
             </div>
         </div>
     );

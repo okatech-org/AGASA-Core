@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# AGASA-Core : Script de préparation initial du Hub GCP
+# AGASA-Admin : Script de préparation initial du Hub GCP
 # ==============================================================================
 set -e
 
@@ -25,7 +25,7 @@ if ! gcloud artifacts repositories describe $REPO_NAME --location=$REGION > /dev
     gcloud artifacts repositories create $REPO_NAME \
         --repository-format=docker \
         --location=$REGION \
-        --description="Registre ultra-sécurisé pour les images AGASA-Core"
+        --description="Registre ultra-sécurisé pour les images AGASA-Admin"
     echo "✅ Registre AR fondé."
 else
     echo "ℹ️ Le registre AR existe déjà."

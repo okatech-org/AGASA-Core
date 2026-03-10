@@ -10,7 +10,7 @@ const randomDate = (daysAgoStart: number, daysAgoEnd: number) => {
 
 export default mutation({
   handler: async (ctx) => {
-    console.log("Starting full seed for AGASA-Core...");
+    console.log("Starting full seed for AGASA-Admin...");
 
     // =========================================================================
     // 1. COMPTES DÉMO DE BASE
@@ -128,7 +128,7 @@ export default mutation({
     // Formations
     const f1Id = await ctx.db.insert("formations", { titre: "Sensibilisation ISO 22000", description: "Bases du management de la sécurité des denrées alimentaires.", categorie: "ISO_22000", duree: 14, formateur: "Cabinet QSE", lieu: "Siège (Salle de Réunion)", dateDebut: randomDate(-20, -22), dateFin: randomDate(-18, -20), capaciteMax: 20, statut: "planifiee" });
     await ctx.db.insert("formations", { titre: "Techniques d'Écouvillonnage", description: "Prélèvement de surface en milieu industriel.", categorie: "HACCP", duree: 7, formateur: "Expert LAA", lieu: "Port-Gentil", dateDebut: randomDate(30, 31), dateFin: randomDate(31, 32), capaciteMax: 10, statut: "terminee" });
-    await ctx.db.insert("formations", { titre: "Nouvel Outil AGASA-Core", description: "Prise en main des modules du nouveau hub numérique.", categorie: "culture_numerique", duree: 3, formateur: "NTSAGUI Digital", lieu: "En ligne", dateDebut: randomDate(-5, -6), dateFin: randomDate(-4, -5), capaciteMax: 100, statut: "planifiee" });
+    await ctx.db.insert("formations", { titre: "Nouvel Outil AGASA-Admin", description: "Prise en main des modules du nouveau hub numérique.", categorie: "culture_numerique", duree: 3, formateur: "NTSAGUI Digital", lieu: "En ligne", dateDebut: randomDate(-5, -6), dateFin: randomDate(-4, -5), capaciteMax: 100, statut: "planifiee" });
 
     // =========================================================================
     // 3. LOGISTIQUE & EQUIPEMENTS

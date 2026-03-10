@@ -1,4 +1,4 @@
-# AGASA-Core OMEGA-M4 - Sequence Complete Dev/Prod
+# AGASA-Admin OMEGA-M4 - Sequence Complete Dev/Prod
 
 Ce document fige la sequence d'execution pour l'infra M4 (Cloud SQL + Sync Hub + Cloud Run).
 Date de reference: 2026-03-01.
@@ -14,12 +14,12 @@ Date de reference: 2026-03-01.
 | `CLOUD_SQL_DB_NAME` | `agasa_hub` | `agasa_hub` |
 | `CLOUD_SQL_APP_USER` | `agasa_app` | `agasa_app` |
 | `HUB_SYNC_TOKEN` | `dev-hub-sync-token-change-me` | `hsk_<token_reel>` |
-| `AGASA_CORE_PUBLIC_BASE_URL` | `http://localhost:3000` | `https://agasa-core.web.app` |
+| `AGASA_ADMIN_PUBLIC_BASE_URL` | `http://localhost:3000` | `https://agasa-admin.web.app` |
 
 ## Phase 0 - Prerequis (1 fois)
 
 ```bash
-cd "/Users/okatech/okatech-projects/AGASA Digital/AGASA-Core"
+cd "/Users/okatech/okatech-projects/AGASA Digital/AGASA-Admin"
 npm run m4:preflight
 ```
 
@@ -42,7 +42,7 @@ npm run m4:prod-sequence
 ## Phase 1 - Initialisation GCP (1 fois)
 
 ```bash
-cd "/Users/okatech/okatech-projects/AGASA Digital/AGASA-Core"
+cd "/Users/okatech/okatech-projects/AGASA Digital/AGASA-Admin"
 bash scripts/setup-gcp.sh
 ```
 
@@ -122,7 +122,7 @@ bash scripts/cloudsql/apply-migrations.sh
 ```bash
 export DATABASE_URL="postgresql://agasa_app:<MOT_DE_PASSE_DEV>@127.0.0.1:5432/agasa_hub?sslmode=disable"
 export HUB_SYNC_TOKEN="dev-hub-sync-token-change-me"
-export AGASA_CORE_PUBLIC_BASE_URL="http://localhost:3000"
+export AGASA_ADMIN_PUBLIC_BASE_URL="http://localhost:3000"
 bash scripts/sync/convex-to-postgres.sh
 bash scripts/sync/postgres-to-convex.sh
 # ou:
@@ -134,7 +134,7 @@ bash scripts/sync/run-bidirectional.sh
 ```bash
 export DATABASE_URL="postgresql://agasa_app:<MOT_DE_PASSE_PROD>@<PRIVATE_IP>:5432/agasa_hub?sslmode=require"
 export HUB_SYNC_TOKEN="hsk_<VOTRE_VRAI_TOKEN>"
-export AGASA_CORE_PUBLIC_BASE_URL="https://agasa-core.web.app"
+export AGASA_ADMIN_PUBLIC_BASE_URL="https://agasa-admin.web.app"
 bash scripts/sync/run-bidirectional.sh
 ```
 
@@ -143,13 +143,13 @@ bash scripts/sync/run-bidirectional.sh
 ### Option A (Docker local installe)
 
 ```bash
-cd "/Users/okatech/okatech-projects/AGASA Digital/AGASA-Core"
+cd "/Users/okatech/okatech-projects/AGASA Digital/AGASA-Admin"
 export PROJECT_ID=agasa-gabon-2026
 export REGION=europe-west1
-export SERVICE_NAME=agasa-core
+export SERVICE_NAME=agasa-admin
 export DEPLOY_MODE=local-docker
 export CLOUD_SQL_INSTANCE_CONNECTION_NAME=agasa-gabon-2026:europe-west1:agasa-hub-prod
-export AGASA_CORE_PUBLIC_BASE_URL=https://agasa-core.web.app
+export AGASA_ADMIN_PUBLIC_BASE_URL=https://agasa-admin.web.app
 export HUB_SYNC_SECRET_NAME=HUB_SYNC_TOKEN
 bash scripts/deploy.sh
 ```
@@ -157,13 +157,13 @@ bash scripts/deploy.sh
 ### Option B (sans Docker local, recommande en CI/CD)
 
 ```bash
-cd "/Users/okatech/okatech-projects/AGASA Digital/AGASA-Core"
+cd "/Users/okatech/okatech-projects/AGASA Digital/AGASA-Admin"
 export PROJECT_ID=agasa-gabon-2026
 export REGION=europe-west1
-export SERVICE_NAME=agasa-core
+export SERVICE_NAME=agasa-admin
 export DEPLOY_MODE=cloud-build
 export CLOUD_SQL_INSTANCE_CONNECTION_NAME=agasa-gabon-2026:europe-west1:agasa-hub-prod
-export AGASA_CORE_PUBLIC_BASE_URL=https://agasa-core.web.app
+export AGASA_ADMIN_PUBLIC_BASE_URL=https://agasa-admin.web.app
 export HUB_SYNC_SECRET_NAME=HUB_SYNC_TOKEN
 bash scripts/deploy.sh
 ```
@@ -177,7 +177,7 @@ printf "%s" "$TOKEN" | gcloud secrets create HUB_SYNC_TOKEN \
   --replication-policy=automatic \
   --data-file=-
 
-gcloud run services update agasa-core \
+gcloud run services update agasa-admin \
   --project=agasa-gabon-2026 \
   --region=europe-west1 \
   --update-secrets=HUB_SYNC_TOKEN=HUB_SYNC_TOKEN:latest
@@ -196,12 +196,12 @@ printf "%s" "$TOKEN" | gcloud secrets versions add HUB_SYNC_TOKEN \
 ```bash
 curl -i \
   -H "Authorization: Bearer ${HUB_SYNC_TOKEN}" \
-  "https://agasa-core.web.app/api/hub/sync/convex-export?since=0&limit=5"
+  "https://agasa-admin.web.app/api/hub/sync/convex-export?since=0&limit=5"
 ```
 
 ## CI/CD Cloud Build (rappel)
 
-Le pipeline [cloudbuild.yaml](/Users/okatech/okatech-projects/AGASA%20Digital/AGASA-Core/cloudbuild.yaml) est aligne M4:
+Le pipeline [cloudbuild.yaml](/Users/okatech/okatech-projects/AGASA%20Digital/AGASA-Admin/cloudbuild.yaml) est aligne M4:
 - attache Cloud SQL (`--add-cloudsql-instances`)
 - injecte `HUB_SYNC_TOKEN` depuis Secret Manager (`--update-secrets`)
-- renseigne `AGASA_CORE_PUBLIC_BASE_URL` sur Cloud Run
+- renseigne `AGASA_ADMIN_PUBLIC_BASE_URL` sur Cloud Run

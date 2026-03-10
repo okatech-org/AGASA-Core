@@ -36,7 +36,7 @@ export default function NouveauUtilisateurPage() {
                 </Button>
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight text-agasa-primary">Nouvel Utilisateur</h1>
-                    <p className="text-muted-foreground">Créer un nouveau compte d'accès à la plateforme AGASA-Core</p>
+                    <p className="text-muted-foreground">Créer un nouveau compte d'accès à la plateforme AGASA-Admin</p>
                 </div>
             </div>
 

@@ -34,7 +34,7 @@ export function Header() {
                         <Search className="h-4 w-4 text-white" strokeWidth={1.8} />
                     </div>
                     <span className="font-serif text-lg font-semibold text-[var(--ds-primary)] tracking-tight">
-                        AGASA-Core
+                        AGASA-Admin
                     </span>
                 </div>
             </div>

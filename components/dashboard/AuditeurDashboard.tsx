@@ -29,7 +29,7 @@ export function AuditeurDashboard() {
             <div className="bg-slate-800 text-white rounded-lg p-4 flex items-center justify-between">
                 <div>
                     <h1 className="text-xl font-bold flex items-center gap-2">
-                        <ShieldCheck className="h-5 w-5" /> Portail d&apos;Audit — AGASA-Core
+                        <ShieldCheck className="h-5 w-5" /> Portail d&apos;Audit — AGASA-Admin
                     </h1>
                     <p className="text-sm text-slate-300 mt-1">Bienvenue, {nom} — {today}</p>
                 </div>

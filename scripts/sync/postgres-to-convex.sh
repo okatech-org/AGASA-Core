@@ -4,7 +4,7 @@ set -euo pipefail
 : "${DATABASE_URL:?DATABASE_URL est requis}"
 : "${HUB_SYNC_TOKEN:?HUB_SYNC_TOKEN est requis}"
 
-CORE_SYNC_BASE_URL=${CORE_SYNC_BASE_URL:-${AGASA_CORE_PUBLIC_BASE_URL:-http://localhost:3000}}
+CORE_SYNC_BASE_URL=${CORE_SYNC_BASE_URL:-${AGASA_ADMIN_PUBLIC_BASE_URL:-http://localhost:3000}}
 BATCH_SIZE=${BATCH_SIZE:-100}
 
 if ! command -v psql >/dev/null 2>&1; then

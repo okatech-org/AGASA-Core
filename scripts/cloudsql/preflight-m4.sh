@@ -24,7 +24,7 @@ require_cmd() {
   fi
 }
 
-echo "Preflight OMEGA-M4 - AGASA-Core"
+echo "Preflight OMEGA-M4 - AGASA-Admin"
 echo "Date: $(date '+%Y-%m-%d %H:%M:%S')"
 
 rc=0

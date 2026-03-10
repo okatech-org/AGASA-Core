@@ -17,7 +17,7 @@ export const planifierRetry = internalMutation({
             // Echec définitif
             await ctx.db.insert("fluxInterApps", {
                 fluxCode: args.flux as any,
-                sourceApp: "AGASA-Core",
+                sourceApp: "AGASA-Admin",
                 destinationApp: args.flux === "F2" ? "AGASA-Pro" : args.flux === "F4" ? "AGASA-Inspect" : "AGASA-Citoyen",
                 typeMessage: "RETRY_ECHEC_DEFINITIF",
                 dateEnvoi: Date.now(),
@@ -34,7 +34,7 @@ export const planifierRetry = internalMutation({
 
         await ctx.db.insert("fluxInterApps", {
             fluxCode: args.flux as any,
-            sourceApp: "AGASA-Core",
+            sourceApp: "AGASA-Admin",
             destinationApp: args.flux === "F2" ? "AGASA-Pro" : args.flux === "F4" ? "AGASA-Inspect" : "AGASA-Citoyen",
             typeMessage: "DELAI_RETRY_PROGRAMME",
             dateEnvoi: Date.now(),

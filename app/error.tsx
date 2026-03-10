@@ -13,7 +13,7 @@ export default function Error({
 }) {
     useEffect(() => {
         // Log the error to an error reporting service
-        console.error("Erreur critique AGASA-Core interceptée :", error);
+        console.error("Erreur critique AGASA-Admin interceptée :", error);
     }, [error]);
 
     return (

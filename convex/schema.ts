@@ -2,7 +2,7 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 // ============================================================================
-// AGASA-Core — Schéma Convex Complet (Prompt 0.2)
+// AGASA-Admin — Schéma Convex Complet (Prompt 0.2)
 // ============================================================================
 
 export default defineSchema({
