@@ -54,7 +54,7 @@ images:
   - 'europe-west1-docker.pkg.dev/$PROJECT_ID/agasa-repo/agasa-core:$COMMIT_SHA'
 
 substitutions:
-  _AGASA_CORE_PUBLIC_BASE_URL: 'https://agasa-core-5c10d.web.app'
+  _AGASA_CORE_PUBLIC_BASE_URL: 'https://agasa-admin.web.app'
 
 options:
   logging: CLOUD_LOGGING_ONLY

@@ -1,12 +1,12 @@
 {
   "projects": {
-    "default": "agasa-gabon-2026"
+    "default": "digitalium-ga"
   },
   "targets": {
-    "agasa-gabon-2026": {
+    "digitalium-ga": {
       "hosting": {
-        "agasa-core": [
-          "agasa-core-5c10d"
+        "agasa-admin": [
+          "agasa-admin"
         ]
       }
     }

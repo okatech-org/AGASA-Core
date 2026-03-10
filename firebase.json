@@ -1,6 +1,6 @@
 {
     "hosting": {
-        "site": "agasa-core-5c10d",
+        "site": "agasa-admin",
         "public": "public",
         "cleanUrls": true,
         "trailingSlash": false,
