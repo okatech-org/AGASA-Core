@@ -6,7 +6,7 @@
     "agasa-gabon-2026": {
       "hosting": {
         "agasa-core": [
-          "agasa-gabon-2026"
+          "agasa-core-5c10d"
         ]
       }
     }

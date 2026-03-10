@@ -1,6 +1,6 @@
 {
     "hosting": {
-        "site": "agasa-gabon-2026",
+        "site": "agasa-core-5c10d",
         "public": "public",
         "cleanUrls": true,
         "trailingSlash": false,
