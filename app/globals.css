@@ -106,7 +106,7 @@
   --ds-primary: hsl(222, 47%, 18%);
   /* #17253f — Bleu marine AGASA */
   --ds-blue: hsl(217, 91%, 60%);
-  /* #3b82f6 — Accent AGASA-Core */
+  /* #3b82f6 — Accent AGASA-Admin */
   --ds-emerald: hsl(160, 84%, 39%);
   /* #10b981 */
   --ds-amber: hsl(38, 92%, 50%);
@@ -145,7 +145,7 @@
   --popover: hsl(0, 0%, 100%);
   --popover-foreground: hsl(230, 30%, 16%);
   --primary: hsl(217, 91%, 60%);
-  /* AGASA-Core accent = blue */
+  /* AGASA-Admin accent = blue */
   --primary-foreground: #ffffff;
   --secondary: hsl(220, 14%, 95%);
   --secondary-foreground: hsl(222, 47%, 18%);
