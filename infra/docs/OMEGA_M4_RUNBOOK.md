@@ -14,7 +14,7 @@ Pour une sequence pre-remplie DEV/PROD (agasa-gabon-2026), voir:
 - `CLOUD_SQL_INSTANCE_CONNECTION_NAME`
 - `DATABASE_URL`
 - `HUB_SYNC_TOKEN`
-- `AGASA_CORE_PUBLIC_BASE_URL`
+- `AGASA_ADMIN_PUBLIC_BASE_URL`
 
 Preflight recommande:
 
@@ -63,7 +63,7 @@ export DATABASE_URL='postgresql://agasa_app:<pwd>@127.0.0.1:5432/agasa_hub?sslmo
 
 ```bash
 export HUB_SYNC_TOKEN='<token_hub_sync>'
-export AGASA_CORE_PUBLIC_BASE_URL='http://localhost:3000'
+export AGASA_ADMIN_PUBLIC_BASE_URL='http://localhost:3000'
 ./scripts/sync/convex-to-postgres.sh
 ```
 

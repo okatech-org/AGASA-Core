@@ -1,7 +1,7 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: agasa-core
+  name: agasa-admin
   labels:
     cloud.googleapis.com/location: europe-west1
 spec:
@@ -14,7 +14,7 @@ spec:
       containerConcurrency: 80
       timeoutSeconds: 300
       containers:
-      - image: europe-west1-docker.pkg.dev/PROJECT_ID/agasa-repo/agasa-core:latest
+      - image: europe-west1-docker.pkg.dev/PROJECT_ID/agasa-repo/agasa-admin:latest
         resources:
           limits:
             cpu: 1000m

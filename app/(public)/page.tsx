@@ -179,7 +179,7 @@ export default function PublicHomePage() {
                 </div>
 
                 {/* Stats Banner — glass, integrated at bottom */}
-                <div className="container-ds relative z-10 mt-16 lg:mt-24">
+                <div className="container-ds relative z-10" style={{marginTop: "10rem"}}>
                     <div className="glass rounded-2xl border border-white/10 p-6 lg:p-8">
                         <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
                             {stats.map((stat) => (
