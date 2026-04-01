@@ -1,4 +1,4 @@
-// AGASA-Core — Admin Audit Logs
+// AGASA-Admin — Admin Audit Logs
 import { query, mutation } from "../_generated/server";
 import { v } from "convex/values";
 

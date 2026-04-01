@@ -91,7 +91,7 @@ export default function PublicLayout({
                             </h4>
                             <nav className="flex flex-col gap-2.5">
                                 {[
-                                    { label: "AGASA-Core", color: "var(--ds-blue)" },
+                                    { label: "AGASA-Admin", color: "var(--ds-blue)" },
                                     { label: "AGASA-Pro", color: "var(--ds-emerald)" },
                                     { label: "AGASA-Inspect", color: "var(--ds-amber)" },
                                     { label: "AGASA-Citoyen", color: "var(--ds-rose)" },

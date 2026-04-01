@@ -88,7 +88,7 @@ export default function ConnexionModal({ open, onClose }: ConnexionModalProps) {
                     </div>
                     <div className="text-center">
                         <h2 className="text-2xl font-bold text-white">
-                            AGASA-Core
+                            AGASA-Admin
                         </h2>
                         <p className="text-sm text-white/60">
                             Plateforme Interne Unifiée
@@ -110,7 +110,7 @@ export default function ConnexionModal({ open, onClose }: ConnexionModalProps) {
                     <CardHeader className="text-center">
                         <CardTitle className="text-xl">Connexion</CardTitle>
                         <p className="text-sm text-muted-foreground">
-                            Accédez à votre espace AGASA-Core
+                            Accédez à votre espace AGASA-Admin
                         </p>
                     </CardHeader>
                     <form onSubmit={handleSubmit}>

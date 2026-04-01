@@ -22,8 +22,8 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "AGASA-Core — Plateforme Interne",
-    template: "%s | AGASA-Core",
+    default: "AGASA-Admin — Plateforme Interne",
+    template: "%s | AGASA-Admin",
   },
   description:
     "Plateforme interne unifiée de l'Agence Gabonaise de Sécurité Alimentaire. Gestion RH, Finance, Documents, Logistique, Laboratoire, Alertes et Pilotage décisionnel.",

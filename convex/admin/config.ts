@@ -1,4 +1,4 @@
-// AGASA-Core — System Configuration
+// AGASA-Admin — System Configuration
 import { query, mutation } from "../_generated/server";
 import { v } from "convex/values";
 
@@ -35,7 +35,7 @@ const DEFAULT_CONFIG = {
         delaiTresorPublic: 30
     },
     systeme: {
-        nomApplication: "AGASA-Core",
+        nomApplication: "AGASA-Admin",
         version: "1.0.0",
         modeMaintenance: false
     }
@@ -122,7 +122,7 @@ export const updateSystemConfig = mutation({
             module: "Admin",
             details: `La section ${args.section} de la configuration a été modifiée`,
             ipAddress: "System",
-            userAgent: "AGASA-Core Admin API",
+            userAgent: "AGASA-Admin Admin API",
             timestamp: Date.now(),
         });
 

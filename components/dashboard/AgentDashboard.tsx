@@ -85,7 +85,7 @@ export function AgentDashboard() {
                 <QuickCard
                     title="Mes formations"
                     info="1 formation à venir"
-                    sub="Prochaine : Nouvel Outil AGASA-Core"
+                    sub="Prochaine : Nouvel Outil AGASA-Admin"
                     icon={GraduationCap}
                     href="/rh/formations?mes_inscriptions=true"
                     cta="Catalogue des formations"

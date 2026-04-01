@@ -12,7 +12,7 @@ export default function AuthLayout({
                     <Shield className="h-8 w-8 text-white" />
                 </div>
                 <div className="text-center">
-                    <h1 className="text-2xl font-bold text-agasa-primary">AGASA-Core</h1>
+                    <h1 className="text-2xl font-bold text-agasa-primary">AGASA-Admin</h1>
                     <p className="text-sm text-muted-foreground">
                         Plateforme Interne Unifiée
                     </p>

@@ -56,7 +56,7 @@ export const traiterFluxEntrant = mutation({
     const fluxId = await ctx.db.insert("fluxInterApps", {
       fluxCode: flux,
       sourceApp,
-      destinationApp: "AGASA-Core",
+      destinationApp: "AGASA-Admin",
       typeMessage,
       dateEnvoi: now,
       dateReception: now,

@@ -108,7 +108,7 @@ export function AdminDashboard() {
                     Administration Système
                 </h1>
                 <p className="mt-1 text-sm text-muted-foreground">
-                    Santé du système, utilisateurs et monitoring AGASA-Core
+                    Santé du système, utilisateurs et monitoring AGASA-Admin
                 </p>
             </div>
 
@@ -273,7 +273,7 @@ export function AdminDashboard() {
                                     <Network className="h-4 w-4 text-orange-500 mt-0.5 shrink-0" />
                                     <div>
                                         <p className="text-sm font-medium text-orange-800">Flux F3 en erreur</p>
-                                        <p className="text-xs text-orange-600 mt-0.5">AGASA-Core → AGASA-Inspect — Timeout</p>
+                                        <p className="text-xs text-orange-600 mt-0.5">AGASA-Admin → AGASA-Inspect — Timeout</p>
                                     </div>
                                 </div>
                             </>

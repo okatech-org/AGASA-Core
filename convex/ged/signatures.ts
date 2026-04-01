@@ -111,7 +111,7 @@ export const signer = mutation({
             module: "GED",
             details: `Signature électronique apposée sur le document du workflow ${workflow.reference} (Trace: ${traceHash})`,
             ipAddress: "System/Portal",
-            userAgent: "AGASA-Core Signature Module",
+            userAgent: "AGASA-Admin Signature Module",
             timestamp: Date.now(),
             entiteType: "workflows",
             entiteId: workflow._id,

@@ -68,7 +68,7 @@ export default function AdminAuditPage() {
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight text-agasa-primary">Journal d'Audit</h1>
-                    <p className="text-muted-foreground mt-1">Traçabilité complète des actions effectuées sur le HUB AGASA-Core.</p>
+                    <p className="text-muted-foreground mt-1">Traçabilité complète des actions effectuées sur le HUB AGASA-Admin.</p>
                 </div>
                 <Button onClick={handleExport} variant="outline" className="gap-2">
                     <Download className="h-4 w-4" />

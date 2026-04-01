@@ -1,4 +1,4 @@
-// AGASA-Core — Admin Stats
+// AGASA-Admin — Admin Stats
 import { query } from "../_generated/server";
 import { v } from "convex/values";
 

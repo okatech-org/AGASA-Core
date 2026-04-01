@@ -178,12 +178,12 @@ export const getFlux = query({
         });
 
         const fluxNames: Record<string, { nom: string; source: string; destination: string; type: string }> = {
-            "F1": { nom: "AGASA-Core → Trésor Public", source: "AGASA-Core", destination: "Trésor Public", type: "Redevances" },
-            "F2": { nom: "AGASA-Inspect → AGASA-Core", source: "AGASA-Inspect", destination: "AGASA-Core", type: "Rapports inspection" },
-            "F3": { nom: "AGASA-Core → LIMS (LAA)", source: "AGASA-Core", destination: "LAA", type: "Échantillons" },
-            "F4": { nom: "AGASA-Pro → AGASA-Core", source: "AGASA-Pro", destination: "AGASA-Core", type: "Demandes opérateurs" },
-            "F5": { nom: "AGASA-Core → eSanté", source: "AGASA-Core", destination: "eSanté", type: "Alertes sanitaires" },
-            "F6": { nom: "CEBEVIRHA → AGASA-Core", source: "CEBEVIRHA", destination: "AGASA-Core", type: "Notifications CEMAC" },
+            "F1": { nom: "AGASA-Admin → Trésor Public", source: "AGASA-Admin", destination: "Trésor Public", type: "Redevances" },
+            "F2": { nom: "AGASA-Inspect → AGASA-Admin", source: "AGASA-Inspect", destination: "AGASA-Admin", type: "Rapports inspection" },
+            "F3": { nom: "AGASA-Admin → LIMS (LAA)", source: "AGASA-Admin", destination: "LAA", type: "Échantillons" },
+            "F4": { nom: "AGASA-Pro → AGASA-Admin", source: "AGASA-Pro", destination: "AGASA-Admin", type: "Demandes opérateurs" },
+            "F5": { nom: "AGASA-Admin → eSanté", source: "AGASA-Admin", destination: "eSanté", type: "Alertes sanitaires" },
+            "F6": { nom: "CEBEVIRHA → AGASA-Admin", source: "CEBEVIRHA", destination: "AGASA-Admin", type: "Notifications CEMAC" },
         };
 
         const result = Object.entries(fluxGroups).map(([code, data]) => ({

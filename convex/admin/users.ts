@@ -1,4 +1,4 @@
-// AGASA-Core — Admin Users Management
+// AGASA-Admin — Admin Users Management
 import { query, mutation } from "../_generated/server";
 import { v } from "convex/values";
 
@@ -62,7 +62,7 @@ export const toggleStatus = mutation({
             module: "Admin",
             details: `Statut de ${targetUser.email} changé à ${args.nouveauStatut}`,
             ipAddress: "System",
-            userAgent: "AGASA-Core Admin API",
+            userAgent: "AGASA-Admin Admin API",
             timestamp: Date.now(),
             entiteType: "users",
             entiteId: args.userId

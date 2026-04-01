@@ -148,7 +148,7 @@ export default function NotificationsPage() {
                         </div>
                         <h3 className="text-2xl font-bold text-slate-900 mb-2">Parfait ! Vous êtes à jour.</h3>
                         <p className="text-slate-500 max-w-md">
-                            Aucun événement récent ou action métier requise n'a été détecté par le Hub Central AGASA-Core.
+                            Aucun événement récent ou action métier requise n'a été détecté par le Hub Central AGASA-Admin.
                         </p>
                     </CardContent>
                 </Card>

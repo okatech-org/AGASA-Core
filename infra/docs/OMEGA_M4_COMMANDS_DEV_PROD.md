@@ -1,4 +1,4 @@
-# AGASA-Core OMEGA-M4 - Sequence Complete Dev/Prod
+# AGASA-Admin OMEGA-M4 - Sequence Complete Dev/Prod
 
 Ce document fige la sequence d'execution pour l'infra M4 (Cloud SQL + Sync Hub + Cloud Run).
 Date de reference: 2026-03-01.
@@ -19,7 +19,7 @@ Date de reference: 2026-03-01.
 ## Phase 0 - Prerequis (1 fois)
 
 ```bash
-cd "/Users/okatech/okatech-projects/AGASA Digital/AGASA-Core"
+cd "/Users/okatech/okatech-projects/AGASA Digital/AGASA-Admin"
 npm run m4:preflight
 ```
 
@@ -42,7 +42,7 @@ npm run m4:prod-sequence
 ## Phase 1 - Initialisation GCP (1 fois)
 
 ```bash
-cd "/Users/okatech/okatech-projects/AGASA Digital/AGASA-Core"
+cd "/Users/okatech/okatech-projects/AGASA Digital/AGASA-Admin"
 bash scripts/setup-gcp.sh
 ```
 
@@ -143,7 +143,7 @@ bash scripts/sync/run-bidirectional.sh
 ### Option A (Docker local installe)
 
 ```bash
-cd "/Users/okatech/okatech-projects/AGASA Digital/AGASA-Core"
+cd "/Users/okatech/okatech-projects/AGASA Digital/AGASA-Admin"
 export PROJECT_ID=agasa-gabon-2026
 export REGION=europe-west1
 export SERVICE_NAME=agasa-core
@@ -157,7 +157,7 @@ bash scripts/deploy.sh
 ### Option B (sans Docker local, recommande en CI/CD)
 
 ```bash
-cd "/Users/okatech/okatech-projects/AGASA Digital/AGASA-Core"
+cd "/Users/okatech/okatech-projects/AGASA Digital/AGASA-Admin"
 export PROJECT_ID=agasa-gabon-2026
 export REGION=europe-west1
 export SERVICE_NAME=agasa-core
@@ -201,7 +201,7 @@ curl -i \
 
 ## CI/CD Cloud Build (rappel)
 
-Le pipeline [cloudbuild.yaml](/Users/okatech/okatech-projects/AGASA%20Digital/AGASA-Core/cloudbuild.yaml) est aligne M4:
+Le pipeline [cloudbuild.yaml](/Users/okatech/okatech-projects/AGASA%20Digital/AGASA-Admin/cloudbuild.yaml) est aligne M4:
 - attache Cloud SQL (`--add-cloudsql-instances`)
 - injecte `HUB_SYNC_TOKEN` depuis Secret Manager (`--update-secrets`)
 - renseigne `AGASA_CORE_PUBLIC_BASE_URL` sur Cloud Run

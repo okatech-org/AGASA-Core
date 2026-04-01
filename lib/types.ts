@@ -1,5 +1,5 @@
 // ============================================================================
-// AGASA-Core — Types TypeScript Globaux
+// AGASA-Admin — Types TypeScript Globaux
 // ============================================================================
 
 import type { UserRole, Direction, Province, ModuleKey, UserStatut } from "./constants";

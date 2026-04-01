@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# AGASA-Core : Déploiement vers Cloud Run (local Docker ou Cloud Build)
+# AGASA-Admin : Déploiement vers Cloud Run (local Docker ou Cloud Build)
 # ==============================================================================
 set -euo pipefail
 
 PROJECT_ID=${PROJECT_ID:-agasa-gabon-2026}
 REGION=${REGION:-europe-west1}
-SERVICE_NAME=${SERVICE_NAME:-agasa-core}
+SERVICE_NAME=${SERVICE_NAME:-agasa-admin}
 REPOSITORY=${REPOSITORY:-agasa-repo}
 IMAGE_TAG=${IMAGE_TAG:-latest}
 DEPLOY_MODE=${DEPLOY_MODE:-auto} # auto | local-docker | cloud-build
@@ -69,8 +69,8 @@ if [ -n "${HUB_SYNC_SECRET_NAME}" ]; then
   run_args+=(--update-secrets "HUB_SYNC_TOKEN=${HUB_SYNC_SECRET_NAME}:latest")
 fi
 
-if [ -n "${AGASA_CORE_PUBLIC_BASE_URL:-}" ]; then
-  run_args+=(--update-env-vars "AGASA_CORE_PUBLIC_BASE_URL=${AGASA_CORE_PUBLIC_BASE_URL}")
+if [ -n "${AGASA_ADMIN_PUBLIC_BASE_URL:-}" ]; then
+  run_args+=(--update-env-vars "AGASA_ADMIN_PUBLIC_BASE_URL=${AGASA_ADMIN_PUBLIC_BASE_URL}")
 fi
 
 gcloud run deploy "${SERVICE_NAME}" "${run_args[@]}"

@@ -1,4 +1,4 @@
-# OMEGA-M4 Runbook — AGASA-Core (Cloud SQL Hub)
+# OMEGA-M4 Runbook — AGASA-Admin (Cloud SQL Hub)
 
 Pour une sequence pre-remplie DEV/PROD (agasa-gabon-2026), voir:
 `infra/docs/OMEGA_M4_COMMANDS_DEV_PROD.md`
@@ -31,7 +31,7 @@ postgresql://agasa_app:<password>@127.0.0.1:5432/agasa_hub?sslmode=disable
 ## 2. Provisionnement Cloud SQL
 
 ```bash
-cd AGASA-Core
+cd AGASA-Admin
 export GCP_PROJECT_ID=agasa-gabon-2026
 export GCP_REGION=europe-west1
 export CLOUD_SQL_INSTANCE_NAME=agasa-hub-prod
@@ -103,7 +103,7 @@ Authorization: Bearer <HUB_SYNC_TOKEN>
       "payload": {"reference": "AGR-2026-00001", "status": "validated"},
       "applyToFlux": true,
       "fluxCode": "F1",
-      "sourceApp": "AGASA-Core",
+      "sourceApp": "AGASA-Admin",
       "destinationApp": "AGASA-Pro"
     }
   ]

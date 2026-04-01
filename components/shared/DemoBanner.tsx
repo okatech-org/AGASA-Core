@@ -14,7 +14,7 @@ export function DemoBanner() {
             <div className="flex items-center gap-2">
                 <AlertTriangle className="h-4 w-4 shrink-0" />
                 <p>
-                    <span className="font-bold">[MODE DÉMO]</span> Vous explorez AGASA-Core en tant que{" "}
+                    <span className="font-bold">[MODE DÉMO]</span> Vous explorez AGASA-Admin en tant que{" "}
                     <span className="font-bold underline decoration-amber-950/30 underline-offset-2">
                         {simulatedRole.replace("_", " ")}
                     </span>

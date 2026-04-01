@@ -7,7 +7,7 @@ import { AlertCircle } from "lucide-react";
 // Dynamically import the map to avoid SSR issues with Leaflet's 'window'
 const CartographieHeatmap = dynamic(() => import('@/app/(dashboard)/bi/cartographie/components/MapWrapper'), {
     ssr: false,
-    loading: () => <div className="h-[650px] w-full bg-slate-100 flex items-center justify-center text-slate-400 border rounded-lg">Chargement de la matrice géo-spatiale des risques AGASA-Core...</div>
+    loading: () => <div className="h-[650px] w-full bg-slate-100 flex items-center justify-center text-slate-400 border rounded-lg">Chargement de la matrice géo-spatiale des risques AGASA-Admin...</div>
 });
 
 export default function CartographieRisquesPage() {

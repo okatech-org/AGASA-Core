@@ -58,7 +58,7 @@ export default function ConnexionPage() {
             <CardHeader className="text-center">
                 <CardTitle className="text-xl">Connexion</CardTitle>
                 <p className="text-sm text-muted-foreground">
-                    Accédez à votre espace AGASA-Core
+                    Accédez à votre espace AGASA-Admin
                 </p>
             </CardHeader>
             <form onSubmit={handleSubmit}>

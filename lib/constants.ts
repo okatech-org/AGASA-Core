@@ -1,5 +1,5 @@
 // ============================================================================
-// AGASA-Core — Constantes Globales
+// AGASA-Admin — Constantes Globales
 // ============================================================================
 
 // --- Rôles Utilisateurs ---
@@ -156,7 +156,7 @@ export const MODULE_ACCESS: Record<UserRole, ModuleKey[]> = {
 };
 
 // --- Constantes Métier ---
-export const APP_NAME = "AGASA-Core";
+export const APP_NAME = "AGASA-Admin";
 export const APP_VERSION = "1.0.0";
 export const APP_DESCRIPTION =
   "Plateforme interne unifiée de l'Agence Gabonaise de Sécurité Alimentaire";

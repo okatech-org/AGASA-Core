@@ -63,7 +63,7 @@ export default function AProposPage() {
                                 <div className="p-6 bg-slate-50 border border-slate-100 rounded-2xl">
                                     <h3 className="font-bold text-slate-900 flex items-center gap-2 mb-2"><MonitorSmartphone className="w-5 h-5 text-indigo-600" /> L'Écosystème Digital (PNDT)</h3>
                                     <p className="text-sm text-slate-600 leading-relaxed">
-                                        Dans le cadre du Plan National de Transition Digitale 2024-2026, l'AGASA numérise ses processus via l'infrastructure souveraine <strong>AGASA-Core</strong> (Hub central ERP & LIMS).
+                                        Dans le cadre du Plan National de Transition Digitale 2024-2026, l'AGASA numérise ses processus via l'infrastructure souveraine <strong>AGASA-Admin</strong> (Hub central ERP & LIMS).
                                     </p>
                                 </div>
                                 <div className="p-6 bg-slate-50 border border-slate-100 rounded-2xl">
